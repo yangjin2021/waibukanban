@@ -63,6 +63,8 @@ PokerAI 可以抽象为：
 - GPU：NVIDIA GeForce RTX 2060 SUPER 8 GB
 - SSD：WD_BLACK SN750 SE 1 TB
 
+详细环境、Python/NVIDIA/CUDA 状态和路径规则统一记录在 [ENVIRONMENT.md](ENVIRONMENT.md)。
+
 开发策略：**Small → Correct → Scale**。先用小模型与少量树跑通完整链路，再逐步扩大数据、模型和牌局配置。
 
 ## 项目设计原则摘要
@@ -83,10 +85,24 @@ PokerAI 可以抽象为：
 - [PROJECT_MAP.md](PROJECT_MAP.md) — 完整 00–19 学习 / 研发路线与四大里程碑
 - [PROGRESS.md](PROGRESS.md) — 当前进度看板
 - [EXECUTION_PLAN.md](EXECUTION_PLAN.md) — 接下来实际执行的 Sprint / 任务清单
+- [ENVIRONMENT.md](ENVIRONMENT.md) — 本机硬件、Python/PyTorch/CUDA、路径和存储规则
+- [docs/CONTINUITY_PROTOCOL.md](docs/CONTINUITY_PROTOCOL.md) — 换页面 / 会话 / 模型后的进度恢复与教学开场规则
 - [docs/INPUT_OUTPUT_SPEC.md](docs/INPUT_OUTPUT_SPEC.md) — 输入、神经网络、Combo 输出、Range / Strategy / UI / API 的正式规范
 - [docs/TECHNICAL_CONSTITUTION.md](docs/TECHNICAL_CONSTITUTION.md) — 已确定的长期技术原则
 - [docs/MODEL_AND_DATA_STRATEGY.md](docs/MODEL_AND_DATA_STRATEGY.md) — Solver 蒸馏、训练/推理、持续扩展策略
 - [docs/LEARNING_METHOD.md](docs/LEARNING_METHOD.md) — 初学者项目式学习方法
+
+## 教学连续性规则
+
+当用户说“继续项目 / 教我下一阶段”时：
+
+1. 先读取 GitHub 的最新 `PROGRESS.md`、`EXECUTION_PLAN.md` 和 `ENVIRONMENT.md`；
+2. 回答开头先显示 **大地图（Phase 00–19）**；
+3. 再显示 **小地图（当前 Sprint / 当前任务）**；
+4. 然后从下一条未完成任务继续教学；
+5. 完成可验证步骤后同步更新 GitHub。
+
+这样即使换聊天页面、会话或模型，也以仓库状态恢复进度，而不是依赖临时聊天记忆。
 
 ## 进度标记
 
@@ -94,4 +110,4 @@ PokerAI 可以抽象为：
 - `◐` 当前进行
 - `○` 未开始
 
-当前正在进行：**Phase 00 — 开发环境与项目骨架**。
+当前正在进行：**Phase 00 — 开发环境与项目骨架；下一教学内容开始进入 Python / Card 基础。**
