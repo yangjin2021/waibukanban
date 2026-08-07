@@ -14,8 +14,9 @@
 | 确认 NVIDIA 驱动 | RTX 2060 SUPER / Driver 560.94 | ● |
 | 创建项目根目录 | `C:\PokerGTOAI` | ● |
 | 创建基础目录 | `src/data/models/tests/logs` | ● |
-| 创建第一段代码 | `src/main.py` | ◐ |
-| 成功运行 | 终端显示项目启动文本 | ○ |
+| 创建第一段代码 | `src/main.py` | ● |
+| 成功运行 | 终端显示 `Poker GTO Intelligence Start` | ● |
+| 理解运行链路 | `.py → Python → print() → 输出` | ◐ |
 
 注意：当前 C 盘剩余空间约 34.7GB。项目代码可以继续放在 C 盘，但后续 Solver、训练 Dataset 和大型模型权重需要使用其他有足够空间的存储位置，避免占满系统盘。
 
@@ -29,7 +30,7 @@
 
 | 任务 | 产物 | 状态 |
 |---|---|:---:|
-| 变量 | `card = "As"` | ○ |
+| 变量 | `card = "As"` | ◐ |
 | 字符串 | 理解 `"As"` 是文本数据 | ○ |
 | Rank / Suit | 从 `As` 中表示 A 与 s | ○ |
 | 52 张牌 | 生成完整 Deck | ○ |
