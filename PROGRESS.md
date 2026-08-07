@@ -49,7 +49,9 @@
 | NVIDIA 驱动 / GPU 确认：RTX 2060 SUPER 8GB | ● |
 | 本地 `C:\PokerGTOAI` 项目目录 | ● |
 | `src / data / models / tests / logs` 目录 | ● |
-| 第一个 Python 程序 | ◐ |
+| 创建 `src\main.py` | ● |
+| 运行第一段 Python 程序 | ● |
+| 理解 `.py` / `print()` / 字符串 / 终端运行 | ◐ |
 
 ## 环境记录
 
@@ -57,6 +59,11 @@
 - NVIDIA Driver：560.94
 - `nvidia-smi` 显示 CUDA Version：12.6（表示当前驱动支持的 CUDA 上限；PyTorch CUDA 可用性后续单独验证）
 - GPU：NVIDIA GeForce RTX 2060 SUPER，8GB 显存
+- 本地项目目录：`C:\PokerGTOAI`
+- 已建立目录：`src / data / models / tests / logs`
+- 第一段程序：`C:\PokerGTOAI\src\main.py`
+- 已验证命令：`python src\main.py`
+- 已验证输出：`Poker GTO Intelligence Start`
 - 当前 C 盘剩余空间约 34.7GB：代码项目可继续放在 C 盘，但后续 Solver、训练 Dataset 和大型模型文件不得堆在 C 盘，需要单独规划数据盘。
 
 ## 已确认的关键认知
@@ -69,12 +76,12 @@
 - `Range Weight` 表示 Combo 在当前节点的范围权重；`Strategy Frequency` 表示当前节点怎么行动，两者不能混淆。
 - 13×13 Range、Combo 表、单牌面频率、牌面类别频率、EV 表都是同一份底层结果的不同展示 / 汇总方式。
 
-## 当前下一步：Sprint 0
+## 当前下一步
 
-1. 创建 `C:\PokerGTOAI\src\main.py`。
-2. 写入并运行第一行 Python 代码。
-3. 用户能自己解释：`.py` 文件、`print()`、字符串、终端运行分别是什么。
-4. 完成 Sprint 0，进入 Sprint 1：用 Python 表示第一张扑克牌。
+1. 理解刚才真正发生了什么：`.py` 文件 → Python 解释器 → 执行 `print()` → 输出字符串。
+2. 在 `main.py` 中加入 `card = "As"`。
+3. 学习变量、赋值符号 `=`、字符串、变量输出。
+4. 完成 Sprint 0，正式进入 Sprint 1：用 Python 表示扑克牌。
 
 详细步骤见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
