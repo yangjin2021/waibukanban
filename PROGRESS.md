@@ -45,11 +45,19 @@
 | 输入 / 输出规范 | ● |
 | 近期执行计划 | ● |
 | 进度看板 | ● |
-| Python 环境确认 | ◐ |
-| NVIDIA GPU 环境确认 | ◐ |
-| 本地 `PokerGTOAI` 项目目录 | ○ |
-| `src / data / models / tests / logs` 目录 | ○ |
-| 第一个 Python 程序 | ○ |
+| Python 环境确认：Python 3.12.10 | ● |
+| NVIDIA 驱动 / GPU 确认：RTX 2060 SUPER 8GB | ● |
+| 本地 `C:\PokerGTOAI` 项目目录 | ● |
+| `src / data / models / tests / logs` 目录 | ● |
+| 第一个 Python 程序 | ◐ |
+
+## 环境记录
+
+- Python：3.12.10
+- NVIDIA Driver：560.94
+- `nvidia-smi` 显示 CUDA Version：12.6（表示当前驱动支持的 CUDA 上限；PyTorch CUDA 可用性后续单独验证）
+- GPU：NVIDIA GeForce RTX 2060 SUPER，8GB 显存
+- 当前 C 盘剩余空间约 34.7GB：代码项目可继续放在 C 盘，但后续 Solver、训练 Dataset 和大型模型文件不得堆在 C 盘，需要单独规划数据盘。
 
 ## 已确认的关键认知
 
@@ -63,12 +71,10 @@
 
 ## 当前下一步：Sprint 0
 
-1. 在 Windows CMD 执行 `python --version`。
-2. 执行 `nvidia-smi`。
-3. 创建本地 `C:\PokerGTOAI` 项目目录及子目录。
-4. 创建并运行 `src/main.py`。
-5. 用户能自己解释：文件、目录、Python 程序、终端运行分别是什么。
-6. 进入 Sprint 1：用 Python 表示第一张扑克牌。
+1. 创建 `C:\PokerGTOAI\src\main.py`。
+2. 写入并运行第一行 Python 代码。
+3. 用户能自己解释：`.py` 文件、`print()`、字符串、终端运行分别是什么。
+4. 完成 Sprint 0，进入 Sprint 1：用 Python 表示第一张扑克牌。
 
 详细步骤见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
