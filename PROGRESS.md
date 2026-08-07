@@ -9,7 +9,7 @@
 | Phase | 模块 | 状态 |
 |---:|---|:---:|
 | 00 | 零基础地基 / 开发环境 | ◐ |
-| 01 | Python 入门 | ○ |
+| 01 | Python 入门 | ◐ |
 | 02 | 扑克牌表示 | ○ |
 | 03 | Combo Engine（1326） | ○ |
 | 04 | Range Engine | ○ |
@@ -30,58 +30,55 @@
 | 19 | Fast GTO Engine | ○ |
 
 ```text
-总路线：◐ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○
+总路线：◐ ◐ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○
 ```
 
-## 当前：Phase 00 — 零基础地基 / 开发环境
+## 当前交界：Phase 00 收尾 + Phase 01 Python 入门启动
 
 | 当前任务 | 状态 |
 |---|:---:|
-| GitHub 仓库建立 | ● |
-| 项目总路线文档 | ● |
-| 技术宪法 | ● |
-| 学习方法文档 | ● |
-| 模型 / 数据策略文档 | ● |
-| 输入 / 输出规范 | ● |
-| 近期执行计划 | ● |
-| 进度看板 | ● |
+| GitHub 仓库 / 路线 / 技术文档 | ● |
 | Python 环境确认：Python 3.12.10 | ● |
 | NVIDIA 驱动 / GPU 确认：RTX 2060 SUPER 8GB | ● |
-| 本地 `C:\PokerGTOAI` 项目目录 | ● |
-| `src / data / models / tests / logs` 目录 | ● |
-| 创建 `src\main.py` | ● |
-| 运行第一段 Python 程序 | ● |
-| 理解 `.py` / `print()` / 字符串 / 终端运行 | ◐ |
+| 本地 `C:\PokerGTOAI` 项目目录与基础子目录 | ● |
+| 创建并运行 `src\main.py` | ● |
+| PowerShell 正确运行 `python .\src\main.py` | ● |
+| 第一张牌变量 `card = "As"` 并输出 `As` | ● |
+| 区分 PowerShell 命令与 Python 代码 | ◐ |
+| 理解变量 / 字符串 / `print()` | ◐ |
+| Rank / Suit | ○ |
+| 52 张牌 Deck | ○ |
 
 ## 环境记录
 
 - Python：3.12.10
+- PowerShell：7.6.4
 - NVIDIA Driver：560.94
-- `nvidia-smi` 显示 CUDA Version：12.6（表示当前驱动支持的 CUDA 上限；PyTorch CUDA 可用性后续单独验证）
+- `nvidia-smi` 显示 CUDA Version：12.6（驱动能力信息；PyTorch CUDA 可用性后续单独验证）
 - GPU：NVIDIA GeForce RTX 2060 SUPER，8GB 显存
 - 本地项目目录：`C:\PokerGTOAI`
 - 已建立目录：`src / data / models / tests / logs`
 - 第一段程序：`C:\PokerGTOAI\src\main.py`
-- 已验证命令：`python src\main.py`
-- 已验证输出：`Poker GTO Intelligence Start`
+- 已验证 PowerShell 命令：`python .\src\main.py`
+- 当前已验证输出：`As`
 - 当前 C 盘剩余空间约 34.7GB：代码项目可继续放在 C 盘，但后续 Solver、训练 Dataset 和大型模型文件不得堆在 C 盘，需要单独规划数据盘。
 
-## 已确认的关键认知
+## 当前已记录排错
 
-- 输入是一组牌局状态参数，最终都会编码成数字。
-- 神经网络是项目真正要训练的核心映射函数。
-- 训练阶段通过 Solver 标签不断调整网络内部参数。
-- 推理阶段把新状态通过已训练参数做前向矩阵计算，直接输出结果。
-- 最底层优先保留 Combo 级 `Policy + EV + Range Weight + Mask`。
-- `Range Weight` 表示 Combo 在当前节点的范围权重；`Strategy Frequency` 表示当前节点怎么行动，两者不能混淆。
-- 13×13 Range、Combo 表、单牌面频率、牌面类别频率、EV 表都是同一份底层结果的不同展示 / 汇总方式。
+- BUG-001：把 CMD 提示符一起复制到 PowerShell — 已解决。
+- BUG-002：把 Python 代码 `print(card)` 直接输入 PowerShell — 原因已确认。
+- BUG-003：`main.py` 路径 / `src` 拼写错误 — 原因已确认。
+- `CONFIG NOT FOUND`：目前记录为 PowerShell 提示符配置备注，不影响 Python 项目执行。
+
+详见 `docs/TROUBLESHOOTING.md`。
 
 ## 当前下一步
 
-1. 理解刚才真正发生了什么：`.py` 文件 → Python 解释器 → 执行 `print()` → 输出字符串。
-2. 在 `main.py` 中加入 `card = "As"`。
-3. 学习变量、赋值符号 `=`、字符串、变量输出。
-4. 完成 Sprint 0，正式进入 Sprint 1：用 Python 表示扑克牌。
+1. 巩固：PowerShell 负责启动程序，Python 负责执行 `.py` 文件里的代码。
+2. 理解 `card = "As"` 中变量、赋值与字符串。
+3. 自己把 `As` 改成 `Kh` 并成功运行。
+4. 开始拆解 `Kh`：`K = Rank`、`h = Suit`。
+5. 逐步进入 52 张牌 Deck。
 
 详细步骤见 [EXECUTION_PLAN.md](EXECUTION_PLAN.md)。
 
