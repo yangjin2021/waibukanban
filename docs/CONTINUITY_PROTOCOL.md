@@ -15,6 +15,7 @@ GitHub 仓库 `yangjin2021/waibukanban` 是项目的长期事实来源（Source 
 5. `docs/INPUT_OUTPUT_SPEC.md` — 输入 / 输出规范
 6. `docs/TECHNICAL_CONSTITUTION.md` — 长期技术原则
 7. `docs/LEARNING_METHOD.md` — 教学方法
+8. `docs/TROUBLESHOOTING.md` — 已遇到的 Bug / 排错经验
 
 如聊天内容与 GitHub 状态冲突，以最新且经过验证的 GitHub 进度记录为准；必要时先核对实际运行结果再更新。
 
@@ -40,6 +41,31 @@ GitHub 仓库 `yangjin2021/waibukanban` 是项目的长期事实来源（Source 
 - 当前正在做的步骤
 - 接下来 1–3 个步骤
 - 当前阶段的过关标准
+- **当前代码定位信息**
+
+当前代码定位信息必须尽量包含：
+
+```text
+当前文件：C:\PokerGTOAI\src\main.py
+打开命令：notepad .\src\main.py
+当前代码：
+card = "Kh"
+print(card)
+print("card")
+运行命令：python .\src\main.py
+预期输出：
+Kh
+card
+```
+
+也就是说，以后“小地图”不能只告诉用户“学到变量 / Rank / Suit”，还必须同时显示：
+
+1. **代码在哪个文件**；
+2. **当前文件里应该是什么关键代码**；
+3. **在 PowerShell 中输入什么命令打开 / 运行**；
+4. **预期输出是什么**。
+
+这样用户可以快速定位当前代码，不需要回翻长聊天记录。
 
 然后再开始本次教学内容。
 
@@ -50,8 +76,9 @@ GitHub 仓库 `yangjin2021/waibukanban` 是项目的长期事实来源（Source 
 1. 更新 `PROGRESS.md`
 2. 更新 `EXECUTION_PLAN.md`
 3. 环境变化则更新 `ENVIRONMENT.md`
-4. 关键技术决定变化则更新相应 docs
-5. 明确告诉用户：本次完成了什么、下一步是什么
+4. 真实 Bug / 排错结果更新 `docs/TROUBLESHOOTING.md`
+5. 关键技术决定变化则更新相应 docs
+6. 明确告诉用户：本次完成了什么、下一步是什么
 
 不以“看过了 / 听懂了”直接标记完成；以运行结果、能解释、能手算或能验证为准。
 
@@ -66,7 +93,7 @@ GitHub 仓库 `yangjin2021/waibukanban` 是项目的长期事实来源（Source 
         ↓
 读取 GitHub 项目状态
         ↓
-恢复大地图 + 小地图
+恢复大地图 + 小地图 + 当前代码定位
         ↓
 确认当前环境 / 最近完成产物
         ↓
@@ -82,6 +109,7 @@ GitHub 仓库 `yangjin2021/waibukanban` 是项目的长期事实来源（Source 
 - 每次代码量尽量小，优先 10–30 行以内的可理解增量。
 - 新知识必须尽快进入 Poker 项目，而不是脱离项目刷教材。
 - 每次明确区分：概念、代码、项目产物、验证结果。
+- PowerShell 命令与 Python 代码必须明确分开标注，避免再次混淆解释环境。
 
 ## 6. 当前项目约定
 
