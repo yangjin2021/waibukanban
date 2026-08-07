@@ -41,7 +41,7 @@ Combo级 Policy + EV
 
 开发策略：**Small → Correct → Scale**。先用小模型与少量树跑通完整链路，再逐步扩大数据、模型和牌局配置。
 
-## 项目设计原则
+## 项目设计原则摘要
 
 1. **内部始终保持 Combo 级精度**：以 1326 个起手 Combo 为统一空间，并使用 blocker mask。
 2. **模型支持批量输出整个 Range**：一次推理输出 `Combo × Action` 策略矩阵。
@@ -52,10 +52,13 @@ Combo级 Policy + EV
 7. **新 Solver 数据优先用于继续训练同一个模型**，同时通过 replay 防止灾难性遗忘。
 8. **最终准确性必须由 Solver 验证**，不能只凭“看起来像”。
 
-## 项目文件
+## 核心文档
 
-- [PROJECT_MAP.md](PROJECT_MAP.md)：长期项目 / 学习路线地图
-- [PROGRESS.md](PROGRESS.md)：当前进度看板
+- [PROJECT_MAP.md](PROJECT_MAP.md) — 完整 00–19 学习 / 研发路线与四大里程碑
+- [PROGRESS.md](PROGRESS.md) — 当前进度看板
+- [docs/TECHNICAL_CONSTITUTION.md](docs/TECHNICAL_CONSTITUTION.md) — 已确定的长期技术原则
+- [docs/MODEL_AND_DATA_STRATEGY.md](docs/MODEL_AND_DATA_STRATEGY.md) — Solver 蒸馏、训练/推理、持续扩展策略
+- [docs/LEARNING_METHOD.md](docs/LEARNING_METHOD.md) — 初学者项目式学习方法
 
 ## 进度标记
 
