@@ -2,111 +2,75 @@
 
 更新时间：2026-08-07
 
-状态说明：
+状态说明：`● 已完成` · `◐ 当前进行` · `○ 未开始`
 
-- ● 已完成
-- ◐ 当前进行
-- ○ 未开始
+## 总进度矩阵
 
----
+| Phase | 模块 | 状态 |
+|---:|---|:---:|
+| 00 | 零基础地基 / 开发环境 | ◐ |
+| 01 | Python 入门 | ○ |
+| 02 | 扑克牌表示 | ○ |
+| 03 | Combo Engine（1326） | ○ |
+| 04 | Range Engine | ○ |
+| 05 | Solver 数据读取 | ○ |
+| 06 | GTO Dataset | ○ |
+| 07 | 第一次机器学习 | ○ |
+| 08 | 神经网络基础 / PokerAI 0.1 | ○ |
+| 09 | Policy Model | ○ |
+| 10 | Value / EV Model | ○ |
+| 11 | Range Intelligence | ○ |
+| 12 | 未见牌面泛化 | ○ |
+| 13 | Turn / River 多街 | ○ |
+| 14 | Solver 级验证 | ○ |
+| 15 | 多 Range / 多配置 | ○ |
+| 16 | 多 Stack / 多位置 | ○ |
+| 17 | 高级 AI（按需） | ○ |
+| 18 | 博弈论 / CFR 深入 | ○ |
+| 19 | Fast GTO Engine | ○ |
 
-# 总进度
-
+```text
+总路线：◐ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○
 ```
-Phase 00
-████░░░░░░░░░░░░░░░░
 
-当前：Phase 00 开发环境与项目骨架
-```
+## 当前：Phase 00 — 零基础地基 / 开发环境
 
----
-
-# Phase 00 开发环境与项目骨架
-
-|任务|状态|
-|-|-|
-|GitHub仓库建立|●|
-|项目规划文档|●|
-|进度看板|●|
-|Python环境确认|◐|
-|GPU环境确认|◐|
-|本地项目目录|○|
-|第一个Python程序|○|
-
----
-
-# Phase 01 Python基础
-
-|任务|状态|
-|-|-|
-|变量|○|
-|数字与字符串|○|
-|列表|○|
-|条件判断|○|
-|循环|○|
-|函数|○|
-
----
-
-# Phase 02 Poker基础系统
-
-|任务|状态|
-|-|-|
-|Card Engine|○|
-|52张牌表示|○|
-|Board系统|○|
-|Hand系统|○|
-
----
-
-# Phase 03 Combo / Range系统
-
-|任务|状态|
-|-|-|
-|1326 Combo生成|○|
-|Combo权重|○|
-|Blocker处理|○|
-|Range矩阵|○|
-
----
-
-# Phase 04 Solver数据工程
-
-|任务|状态|
-|-|-|
-|Pio接口|○|
-|CFR读取|○|
-|Strategy提取|○|
-|EV提取|○|
-|Dataset生成|○|
-
----
-
-# Phase 05 AI模型
-
-|任务|状态|
-|-|-|
-|第一个神经网络|○|
-|Policy模型|○|
-|EV模型|○|
-|Combo批量预测|○|
-
----
-
-# Phase 06 Fast GTO Engine
-
-|任务|状态|
-|-|-|
-|Combo级输出|○|
-|13×13 Range显示|○|
-|Range传播|○|
-|API接口|○|
-
----
+| 当前任务 | 状态 |
+|---|:---:|
+| GitHub 仓库建立 | ● |
+| 项目总路线文档 | ● |
+| 技术宪法 | ● |
+| 学习方法文档 | ● |
+| 模型 / 数据策略文档 | ● |
+| 进度看板 | ● |
+| Python 环境确认 | ◐ |
+| NVIDIA GPU 环境确认 | ◐ |
+| 本地 `PokerGTOAI` 项目目录 | ○ |
+| `src / data / models / tests / logs` 目录 | ○ |
+| 第一个 Python 程序 | ○ |
 
 ## 当前下一步
 
-1. 完成Python环境确认。
-2. 创建本地PokerGTOAI目录。
-3. 编写第一个Python程序。
-4. 开始Phase 01 Python基础学习。
+1. 在 Windows CMD 执行 `python --version`。
+2. 执行 `nvidia-smi`。
+3. 创建本地 `C:\PokerGTOAI` 项目目录及子目录。
+4. 创建并运行第一段项目代码。
+5. 开始 Phase 01：围绕扑克牌表示学习 Python 变量、字符串与列表。
+
+## 四个大里程碑
+
+| Milestone | 判定标准 | 状态 |
+|---|---|:---:|
+| M1 数据打开了 | Python → PioSolver → 读出一个真实 Combo 的 Strategy / Range / EV | ○ |
+| M2 AI 出生 | 未见 Flop + Combo → AI 策略明显接近 Solver | ○ |
+| M3 Range Intelligence | 一次输出整个 Combo Range，并能 13×13 / Combo 级查看 | ○ |
+| M4 Fast GTO Engine | 状态 → Strategy + EV → Range 传播 → 下一街 | ○ |
+
+## 进度更新规则
+
+每完成一个真正可验证的步骤：
+
+1. 更新本文件状态；
+2. 提交对应代码 / 文档；
+3. 必要时补充学习日志或实验结果；
+4. 不因为“看过/听懂了”就标记完成，必须以能运行、能解释或能验证为准。
