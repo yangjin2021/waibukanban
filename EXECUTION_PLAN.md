@@ -1,110 +1,104 @@
-# Poker GTO Intelligence — 近期执行计划
+# Poker GTO Intelligence — Sprint Plan
 
-本文件只管理“接下来实际做什么”，避免长期路线太大导致迷路。
+> **Sprint 级计划，不是默认恢复入口。** 当前正在写哪行代码、最后验证到哪里，请看 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
 状态：`● 已完成` · `◐ 当前进行` · `○ 未开始`
 
 ## Sprint 0 — 环境与第一段代码
 
-目标：让本地电脑真正能够运行 PokerAI 项目代码。
+目标：本地电脑能够稳定运行 PokerAI 项目代码。
 
-| 任务 | 产物 | 状态 |
-|---|---|:---:|
-| 确认 Python | Python 3.12.10 | ● |
-| 确认 NVIDIA 驱动 | RTX 2060 SUPER / Driver 560.94 | ● |
-| 创建项目根目录 | `C:\PokerGTOAI` | ● |
-| 创建基础目录 | `src/data/models/tests/logs` | ● |
-| 创建第一段代码 | `src/main.py` | ● |
-| 成功运行 | 终端显示 `Poker GTO Intelligence Start` | ● |
-| 理解运行链路 | `.py → Python → print() → 输出` | ◐ |
+主要任务：Python / NVIDIA 环境确认、项目目录、`src/main.py`、终端运行链路。
 
-注意：当前 C 盘剩余空间约 34.7GB。项目代码可以继续放在 C 盘，但后续 Solver、训练 Dataset 和大型模型权重需要使用其他有足够空间的存储位置，避免占满系统盘。
+状态：**◐ 收尾**
 
-过关标准：用户能自己说明“Python 文件是什么、终端怎么运行它”，并能区分 PowerShell 命令与 Python 代码。
+过关标准：能从任意新 CMD / PowerShell 回到项目，能区分终端命令和 Python 代码，并能运行 `.py` 文件。
 
 ---
 
 ## Sprint 1 — 用 Python 表示一张牌
 
-目标：不脱离项目地学习变量、字符串、列表。
+目标：围绕扑克牌学习变量、字符串和最基础的数据表示。
 
-| 任务 | 产物 | 状态 |
-|---|---|:---:|
-| 变量 | `card = "As"` 并成功输出 `As` | ● |
-| 字符串 | 理解 `"As"` 是文本数据 | ◐ |
-| PowerShell / Python 边界 | 知道代码写进 `.py`，由 `python 文件.py` 执行 | ◐ |
-| Rank / Suit | 从 `As` 中表示 A 与 s | ○ |
-| 52 张牌 | 生成完整 Deck | ○ |
-| 基础验证 | 没有重复牌，共 52 张 | ○ |
+主要任务：
 
-过关标准：程序能生成并打印 52 张扑克牌。
+- `card = "As"`
+- 字符串
+- Rank / Suit
+- 生成 52 张牌
+- 验证无重复且数量为 52
+
+状态：**◐ 当前**
+
+过关标准：程序能生成并打印完整 52 张牌，并能解释一张牌如何由 Rank + Suit 表示。
 
 ---
 
 ## Sprint 2 — Combo Engine
 
-目标：建立 AI 最终的最小扑克单位。
+目标：建立 AI 的最小扑克手牌单位。
 
-| 任务 | 产物 | 状态 |
-|---|---|:---:|
-| 两张牌组合 | Hand / Combo 表示 | ○ |
-| 枚举所有 Combo | 1326 个 Combo | ○ |
-| AA / AKs / AKo 理解 | 6 / 4 / 12 Combo | ○ |
-| Board blocker | 删除与公共牌冲突的 Combo | ○ |
-| 自动测试 | 确认数量与 blocker 正确 | ○ |
+主要任务：
 
-过关标准：能解释为什么总共有 1326 Combo，并让 Python 自动生成。
+- 两张牌 Combo 表示
+- 枚举全部 1326 Combo
+- 理解 AA / AKs / AKo 对应 6 / 4 / 12 Combo
+- Board blocker
+- 自动测试
+
+状态：**○**
+
+过关标准：Python 自动生成 1326 Combo，并正确排除与 Board 冲突的 Combo。
 
 ---
 
 ## Sprint 3 — Range Engine
 
-目标：让每个 Combo 拥有 0~1 权重。
+目标：让每个 Combo 拥有 0~1 权重，并能沿动作传播。
 
-| 任务 | 产物 | 状态 |
-|---|---|:---:|
-| Range Weight | `combo -> weight` | ○ |
-| Range 总量 | 加权 Combo 统计 | ○ |
-| Blocker + Range | Board 后自动更新合法范围 | ○ |
-| 动作概率 | `combo -> action frequency` | ○ |
-| Range Propagation | `weight × action_probability` | ○ |
+主要任务：
 
-过关标准：能够区分 `Range Weight` 和 `Strategy Frequency`。
+- Range Weight
+- 加权 Combo 数量
+- Blocker + Range
+- Action Frequency
+- Range Propagation
+
+状态：**○**
+
+过关标准：能清楚区分 `Range Weight` 与 `Strategy Frequency`，并实现 `weight × action_probability`。
 
 ---
 
 ## Sprint 4 — 打开第一棵 Solver
 
-目标：到达第一个大里程碑 M1 的最小版本。
-
-步骤：
+目标：到达 Milestone 1 的最小版本。
 
 ```text
 Python
   ↓
-启动 PioSolver
+PioSolver / UPI
   ↓
-发送 UPI 命令
+加载 1 棵 .cfr
   ↓
-读取一个 .cfr
+真实节点
   ↓
-取得一个真实节点
-  ↓
-取得 Range / Strategy / EV
+Range / Strategy / EV
 ```
 
-先只处理 1 棵 `.cfr`，成功后再扩到 5 → 10 → 184。
+状态：**○**
 
-过关标准：Python 能打印一个真实 Combo 的 Solver Range Weight、动作频率与 EV。
+先 1 棵验证，再逐步扩到 5 → 20 → 50 → 184。
+
+过关标准：Python 能打印真实 Combo 的 Solver Range Weight、动作频率与 EV。
 
 ---
 
 ## 第一阶段开发纪律
 
 1. 每次只增加一个真正需要的新概念。
-2. 每一步必须有可运行产物。
-3. 不提前学习与当前任务无关的高级网络结构。
-4. 不一次处理全部 184 棵树。
-5. 不把大型 `.cfr` 复制进项目仓库。
-6. GitHub 不提交 Solver 大文件、训练数据或大型模型权重。
-7. 代码、路线、进度与关键实验结论提交 GitHub。
+2. 每一步必须有可验证产物。
+3. 不提前堆高级网络结构。
+4. 不一次处理全部 Solver 数据。
+5. 不把大型 `.cfr`、Dataset、模型权重提交 GitHub。
+6. 实时细节更新 `CURRENT_STATE.md`；Sprint 结构变化才更新本文件。
