@@ -20,6 +20,7 @@
 | 项目 | 当前值 | 状态 |
 |---|---|:---:|
 | Python | 3.12.10 | ● |
+| PowerShell | 7.6.4 | ● |
 | NVIDIA Driver | 560.94 | ● |
 | `nvidia-smi` CUDA Version | 12.6 | ● |
 | PyTorch | 尚未安装 / 尚未验证 | ○ |
@@ -56,6 +57,42 @@ python src\main.py
 ```text
 Poker GTO Intelligence Start
 ```
+
+### CMD 与 PowerShell 提示符规则
+
+命令示例中的 `C:\PokerGTOAI>` 只是 CMD 显示的“当前位置提示符”，**不是命令的一部分**。
+
+正确：
+
+```text
+python src\main.py
+```
+
+错误：
+
+```text
+C:\PokerGTOAI>python src\main.py
+```
+
+在 PowerShell 中，如果当前不在项目目录，先执行：
+
+```powershell
+Set-Location C:\PokerGTOAI
+```
+
+或简写：
+
+```powershell
+cd C:\PokerGTOAI
+```
+
+再执行：
+
+```powershell
+python .\src\main.py
+```
+
+PowerShell 提示符可能由主题美化工具显示成多段内容；提示符文字本身都不要复制到命令中。
 
 ## 4. 存储状态与规则
 
@@ -95,6 +132,7 @@ Poker GTO Intelligence Start
 以下任何一项发生变化，都更新本文件：
 
 - Python 版本
+- PowerShell / Terminal 环境
 - PyTorch 版本
 - CUDA / NVIDIA Driver
 - GPU / RAM / SSD
