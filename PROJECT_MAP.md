@@ -1,5 +1,7 @@
 # Poker GTO Intelligence 项目 / 学习路线地图
 
+> 完整长期路线。**实时当前状态请看 `CURRENT_STATE.md`**；本文件主要在 Phase 发生变化时更新。
+
 状态：`● 已完成` · `◐ 当前进行` · `○ 未开始`
 
 > 核心目标：从零基础开始，边学习边研发一个**不需要运行时现场求解、能够快速输出 Combo 级 GTO 策略与 EV 的扑克决策智能**。
@@ -52,8 +54,8 @@ Fast GTO Engine
 
 | 阶段 | 学什么 | 项目产物 | 过关标准 | 状态 |
 |---|---|---|---|---|
-| 00 零基础地基 | 文件、路径、数字、小数、百分比、最基础代数 | 能看懂项目中的数字和文件 | 理解 `0.35=35%`、路径/文件夹 | ◐ |
-| 01 Python 入门 | 变量、字符串、数字、list、if、for、函数 | 第一个 Poker Python 程序 | 能读懂并修改简单 Python | ○ |
+| 00 零基础地基 | 文件、路径、数字、小数、百分比、最基础代数 | 能看懂项目中的数字和文件 | 理解路径/文件夹、终端与程序运行 | ◐ 收尾 |
+| 01 Python 入门 | 变量、字符串、数字、list、if、for、函数 | 第一个 Poker Python 程序 | 能读懂并修改简单 Python | ◐ 当前 |
 | 02 扑克牌表示 | 数据结构、编码思想 | Card / Hand / Board 系统 | Python 能认识 `AsKh`、`Qs8h4c` | ○ |
 | 03 Combo 系统 | 组合、枚举、数组 | 1326 Combo Engine | 列出全部 1326 Combo 并处理 blocker | ○ |
 | 04 Range 系统 | 百分比、概率、向量、权重 | Combo 级 Range Engine | 每个 Combo 有 0~1 权重 | ○ |
@@ -91,6 +93,8 @@ Fast GTO Engine
 
 `牌局状态 → Range → AI → 完整 Strategy + EV → 行动 → Range 自动更新 → 下一街`
 
-## 当前起点
+## 当前位置
 
-当前只做 **Phase 00**：确认 Python / GPU / 本地目录，并写出项目第一行可执行代码。
+当前处于：**Phase 00 收尾 + Phase 01 Python 入门启动**。
+
+实时到具体哪一行代码，以 [CURRENT_STATE.md](CURRENT_STATE.md) 为准。
