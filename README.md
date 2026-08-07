@@ -1,32 +1,44 @@
 # Poker GTO Intelligence
 
-这是一个以项目式学习方式，从零开始研发 **快速德州扑克 GTO 决策智能** 的长期项目。
+这是一个从零开始、以项目式学习方式研发 **快速德州扑克 GTO 决策智能** 的长期项目。
 
 ## 最终目标
 
-训练一个不需要在使用时现场运行 CFR/Solver 的模型：
-
 ```text
 牌局状态
-+ Board
-+ Stack / Pot / Position
-+ IP Range（Combo级）
-+ OOP Range（Combo级）
-+ Action History
-+ Legal Actions / Bet Sizes
++ Board / Stack / Pot / Position
++ IP / OOP Combo Range
++ Action History / Legal Actions
         ↓
    GTO Neural Model
         ↓
-Combo级 Policy + EV
+Combo级 Policy + EV + Range 信息
         ↓
-13×13 Range 表 / Combo明细 / 牌面频率分析 / API
+13×13 Range / Combo明细 / 频率分析 / API
 ```
 
-目标是让模型在推理阶段快速输出接近 Solver 的 GTO 策略，而不是每次重新求解。
+训练阶段使用 PioSolver `.cfr` 作为老师；最终使用阶段主要运行训练好的神经网络，不要求现场重新 CFR 求解。
 
-## 当前对系统的核心理解
+## 最重要的两个入口
 
-PokerAI 可以抽象为：
+### 1. [CURRENT_STATE.md](CURRENT_STATE.md) — 默认恢复入口
+
+用户说“查看当前进度 / 继续项目 / 教我下一阶段”时，优先只读取这个文件。
+
+它固定包含：
+
+1. **大地图进度**
+2. **小地图进度**
+3. **相关代码**
+4. **简单学习总结**
+
+### 2. [REFERENCE_INDEX.md](REFERENCE_INDEX.md) — 参数 / 字段索引
+
+当聊天需要本机配置、Solver 参数、模型输入输出字段、路径、Bug、技术原则等具体信息时，先看这个索引，再只读取对应详细文档。
+
+原则：**当前状态轻量加载，详细参数按需查询。**
+
+## 当前项目核心理解
 
 ```text
 输入参数 x
@@ -36,78 +48,64 @@ PokerAI 可以抽象为：
 输出参数 y
 ```
 
-我们真正训练的是中间的 **神经网络及其内部参数**。Solver 负责提供训练阶段的老师答案；训练完成后，使用阶段主要是一次快速的前向矩阵计算。
+真正训练的是神经网络内部参数。底层坚持 Combo 级精度；13×13、Combo 表、牌面频率表、EV 表等只是同一份底层输出的不同展示。
 
-底层结果坚持保留 Combo 级精度，再由同一份结果生成：
+## 当前资源摘要
 
-- 整体 Range 行动频率
-- 13×13 Range 策略表
-- Combo 明细表
-- 单 Combo Strategy / EV
-- 牌面 / 牌面类别频率表
-- Range 传播结果
-- 对外 API 数据
-
-## 当前已有资源
-
-- 184 个已结算 PioSolver Full CFR 方案
-- 统一求解精度约 1%
-- 当前主数据域：150BB、BTN vs BB、SRP
-- 已有范围表与方案总览
-- 训练数据将优先从 `.cfr` 中提取 Combo 级 Range / Strategy / EV
-
-## 当前硬件
-
+- 184 个 PioSolver Full CFR 方案
+- 求解精度约 1%
+- 当前主要数据域：150BB、BTN vs BB、SRP
 - CPU：Intel Core i5-12490F
 - RAM：32 GB
-- GPU：NVIDIA GeForce RTX 2060 SUPER 8 GB
-- SSD：WD_BLACK SN750 SE 1 TB
+- GPU：RTX 2060 SUPER 8GB
+- SSD：WD_BLACK SN750 SE 1TB
 
-详细环境、Python/NVIDIA/CUDA 状态和路径规则统一记录在 [ENVIRONMENT.md](ENVIRONMENT.md)。
+具体值和后续变化不要依赖本摘要，按需从 `REFERENCE_INDEX.md` 跳到对应 Source of Truth。
 
-开发策略：**Small → Correct → Scale**。先用小模型与少量树跑通完整链路，再逐步扩大数据、模型和牌局配置。
+## 信息架构
 
-## 项目设计原则摘要
+```text
+README.md
+├─ CURRENT_STATE.md       ← 默认：当前进度 / 代码 / 学习总结
+├─ REFERENCE_INDEX.md     ← 按需：参数 / 字段去哪里查
+│
+├─ PROJECT_MAP.md         ← 完整 Phase 00–19 大路线
+├─ PROGRESS.md            ← 详细阶段级进度
+├─ EXECUTION_PLAN.md      ← 详细 Sprint 计划
+├─ ENVIRONMENT.md         ← 本机 / Python / CUDA / 路径
+│
+└─ docs/
+   ├─ CONTINUITY_PROTOCOL.md
+   ├─ INPUT_OUTPUT_SPEC.md
+   ├─ MODEL_AND_DATA_STRATEGY.md
+   ├─ TECHNICAL_CONSTITUTION.md
+   ├─ LEARNING_METHOD.md
+   └─ TROUBLESHOOTING.md
+```
 
-1. **内部始终保持 Combo 级精度**：以 1326 个起手 Combo 为统一空间，并使用 blocker mask。
-2. **模型支持批量输出整个 Range**：长期目标是一次推理输出 `Combo × Action` 策略矩阵。
-3. **Range Weight 与 Strategy Frequency 分开表示**。
-4. **Range 是输入，不永久写死在模型里**。
-5. **Stack / Position / Pot / Action History / Bet Size 都逐步设计成条件输入**。
-6. **模型输出至少包含 Policy + EV**。
-7. **统一 API**：AI 大脑与 13×13 Range UI、训练工具、未来其他项目解耦。
-8. **新 Solver 数据优先用于继续训练同一个模型**，同时通过 replay 防止灾难性遗忘。
-9. **最终准确性必须由 Solver 验证**，不能只凭“看起来像”。
-10. **训练较重，推理较轻**：最终产品追求状态输入后快速直接输出结果。
+## 文档职责
 
-## 核心文档
+| 文件 | 职责 |
+|---|---|
+| `CURRENT_STATE.md` | **实时学习状态，默认只读这个** |
+| `REFERENCE_INDEX.md` | 参数 / 字段 / 文档路由 |
+| `PROJECT_MAP.md` | 完整长期路线 |
+| `PROGRESS.md` | 详细阶段看板 |
+| `EXECUTION_PLAN.md` | Sprint 详细计划 |
+| `ENVIRONMENT.md` | 本机环境与路径事实来源 |
+| `docs/INPUT_OUTPUT_SPEC.md` | Poker State / Model Output / API 字段 |
+| `docs/MODEL_AND_DATA_STRATEGY.md` | Solver 数据、训练 / 推理策略 |
+| `docs/TECHNICAL_CONSTITUTION.md` | 不轻易改变的架构原则 |
+| `docs/LEARNING_METHOD.md` | 教学方法 |
+| `docs/TROUBLESHOOTING.md` | Bug / 排错历史 |
+| `docs/CONTINUITY_PROTOCOL.md` | 跨聊天 / 换模型恢复规则 |
 
-- [PROJECT_MAP.md](PROJECT_MAP.md) — 完整 00–19 学习 / 研发路线与四大里程碑
-- [PROGRESS.md](PROGRESS.md) — 当前进度看板
-- [EXECUTION_PLAN.md](EXECUTION_PLAN.md) — 接下来实际执行的 Sprint / 任务清单
-- [ENVIRONMENT.md](ENVIRONMENT.md) — 本机硬件、Python/PyTorch/CUDA、路径和存储规则
-- [docs/CONTINUITY_PROTOCOL.md](docs/CONTINUITY_PROTOCOL.md) — 换页面 / 会话 / 模型后的进度恢复与教学开场规则
-- [docs/INPUT_OUTPUT_SPEC.md](docs/INPUT_OUTPUT_SPEC.md) — 输入、神经网络、Combo 输出、Range / Strategy / UI / API 的正式规范
-- [docs/TECHNICAL_CONSTITUTION.md](docs/TECHNICAL_CONSTITUTION.md) — 已确定的长期技术原则
-- [docs/MODEL_AND_DATA_STRATEGY.md](docs/MODEL_AND_DATA_STRATEGY.md) — Solver 蒸馏、训练/推理、持续扩展策略
-- [docs/LEARNING_METHOD.md](docs/LEARNING_METHOD.md) — 初学者项目式学习方法
+## 更新原则
 
-## 教学连续性规则
+- 每完成一个可验证小步骤：优先更新 `CURRENT_STATE.md`。
+- 环境、Bug、模型、接口等发生变化：只更新对应领域文档。
+- 新增参数 / 字段类别：登记到 `REFERENCE_INDEX.md`。
+- `PROGRESS.md` / `EXECUTION_PLAN.md` 主要在 Phase、Sprint 或计划明显变化时更新。
+- 不把密码、Token、私钥、设备 ID 等敏感信息写入仓库。
 
-当用户说“继续项目 / 教我下一阶段”时：
-
-1. 先读取 GitHub 的最新 `PROGRESS.md`、`EXECUTION_PLAN.md` 和 `ENVIRONMENT.md`；
-2. 回答开头先显示 **大地图（Phase 00–19）**；
-3. 再显示 **小地图（当前 Sprint / 当前任务）**；
-4. 然后从下一条未完成任务继续教学；
-5. 完成可验证步骤后同步更新 GitHub。
-
-这样即使换聊天页面、会话或模型，也以仓库状态恢复进度，而不是依赖临时聊天记忆。
-
-## 进度标记
-
-- `●` 已完成
-- `◐` 当前进行
-- `○` 未开始
-
-当前正在进行：**Phase 00 — 开发环境与项目骨架；下一教学内容开始进入 Python / Card 基础。**
+开发策略：**Small → Correct → Scale**。
