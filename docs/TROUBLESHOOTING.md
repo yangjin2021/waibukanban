@@ -206,4 +206,59 @@ notepad .\src\main.py
 
 ---
 
+## NOTE-002 — 新开终端时当前可能在 D 盘 / 其他目录
+
+**日期：** 2026-08-07  
+**环境：** Windows CMD / PowerShell
+
+### 现象
+
+继续课程时，用户打开了一个全新的 CMD，当前位于 D 盘，不知道之前应该先输入什么才能回到项目。
+
+### 原因
+
+相对路径命令，例如：
+
+```text
+python .\src\main.py
+```
+
+依赖“当前工作目录”。如果当前不在 `C:\PokerGTOAI`，就不能直接用这条相对路径恢复课程。
+
+### 固定恢复方式
+
+如果是 **CMD**，无论当前在 C / D / E 盘，统一先输入：
+
+```cmd
+cd /d C:\PokerGTOAI
+```
+
+然后：
+
+```cmd
+notepad .\src\main.py
+python .\src\main.py
+```
+
+如果是 **PowerShell**：
+
+```powershell
+cd C:\PokerGTOAI
+notepad .\src\main.py
+python .\src\main.py
+```
+
+### 学到的知识
+
+- “打开一个新终端”相当于重新获得一个新的工作目录起点。
+- 相对路径 `\.\src\main.py` 是相对于当前工作目录计算的。
+- CMD 的 `cd /d` 可以同时切换盘符和目录。
+- 以后每次课程小地图都必须给出“从任意新终端回到项目”的第一条命令。
+
+### 状态
+
+`● 已形成固定恢复规则并写入教学连续性协议。`
+
+---
+
 后续真实遇到的问题继续按 `BUG-004 / BUG-005 ...` 追加。
