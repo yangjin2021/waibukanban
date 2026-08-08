@@ -46,10 +46,10 @@
 | `for` 循环逐张处理 | ● |
 | 嵌套 `for`：13 Rank × 4 Suit | ● |
 | 生成并打印完整 52 张 Deck | ● |
-| `len()` 检查数量 | ● 已学会（用户确认） |
-| `set()` 检查重复牌 | ● 已学会（用户确认） |
-| `def create_deck()` | ◐ 已讲解，未保留运行输出 |
-| `return deck` | ◐ 当前知识点，待 PyCharm 验证 |
+| `len()` 检查数量 | ● |
+| `set()` 检查重复牌 | ● |
+| `def create_deck()` | ● |
+| `return deck` | ● PyCharm 已验证 |
 | 函数参数 | ○ 下一步 |
 | Card Engine 结构化 | ○ |
 
@@ -66,67 +66,58 @@
 
 ## 4. 最后一次明确验证的代码
 
-用户已在终端明确贴出完整 52 张牌输出，从 `As / Ah / Ad / Ac` 一直到 `2s / 2h / 2d / 2c`。
+用户已在 PyCharm 验证 `create_deck()` + `return deck` 数据流。
 
-对应代码：
-
-```python
-ranks = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
-suits = ["s", "h", "d", "c"]
-
-for rank in ranks:
-    for suit in suits:
-        card = rank + suit
-        print(card)
-```
-
-这证明用户已经实际掌握 / 使用：
-
-- list
-- for
-- 嵌套 for
-- 字符串拼接
-- Rank × Suit 生成 Card
-
-## 5. 当前目标代码（待 PyCharm 验证）
+对应核心代码：
 
 ```python
 # 定义一个“生成整副牌”的功能
 def create_deck():
-
-    # 准备所有 Rank 和 Suit
     ranks = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
     suits = ["s", "h", "d", "c"]
-
-    # 准备空列表，用来收集生成的牌
     deck = []
 
-    # 每个 Rank 都和 4 个 Suit 组合
     for rank in ranks:
         for suit in suits:
             card = rank + suit
             deck.append(card)
 
-    # 把生成好的整副牌交回函数外面
     return deck
 
 
-# 调用函数，并接住 return 回来的结果
 deck = create_deck()
 
-# 正常打印结果；注释不会出现在输出里
+print("第一张牌:", deck[0])
+print("最后一张牌:", deck[-1])
 print("牌的数量:", len(deck))
-print("不重复牌的数量:", len(set(deck)))
 ```
 
-目标输出：
+已验证输出：
 
 ```text
+第一张牌: As
+最后一张牌: 2c
 牌的数量: 52
-不重复牌的数量: 52
+
+Process finished with exit code 0
 ```
 
-> 注意：“明确验证”与“已讲解 / 用户口头确认学会”继续分开记录，避免把没有运行证据的代码误写成已验证。
+这证明用户已经实际使用并验证：
+
+- `def` 定义函数
+- 函数调用 `create_deck()`
+- `return deck` 把函数内部结果交回外部
+- `deck = create_deck()` 接住返回值
+- `deck[0]` / `deck[-1]`
+- `len(deck) == 52`
+
+## 5. 下一知识点
+
+**函数参数（parameter / argument）**。
+
+目标不是为了增加难度，而是理解：函数可以从外面接收数据，而不是所有规则都写死在函数里面。
+
+教学时优先从一个非常小的例子开始，再逐步连接回扑克代码；不要一次把 `create_deck()` 改得过度抽象。
 
 ## 6. 当前教学约定
 
