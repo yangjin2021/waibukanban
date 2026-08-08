@@ -1,6 +1,6 @@
 # Poker GTO Intelligence — Current State
 
-> **默认恢复入口。** 当用户说“查看当前进度 / 继续项目 / 教我下一阶段”时，优先读取本文件；随后读取 `docs/TEACHING_SOP.md` 恢复教学方式；涉及双语言教学时，再读取 `docs/PYTHON_LISP_COURSE.md`。
+> **默认恢复入口。** 当用户说“查看当前进度 / 继续项目 / 教我下一阶段”时，优先读取本文件；随后读取 `docs/TEACHING_SOP.md` 恢复教学方式；涉及双语言教学时，再读取 `docs/PYTHON_LISP_COURSE.md`；进入 AI 架构、模型、训练、搜索、CFR 等内容时，再读取 `docs/AI_LANGUAGE_POSITIONING.md` 恢复 Python / Lisp 的长期分工。
 
 更新时间：2026-08-08
 
@@ -21,6 +21,15 @@ Common Lisp 同步副线
 ```
 
 **Python 仍是正式项目主语言；Lisp 默认在 GPT 内教学，不接入本地 Poker 项目。**
+
+长期 AI 语言定位见：`docs/AI_LANGUAGE_POSITIONING.md`。
+
+一句话：
+
+```text
+Python = 把 AI 真正做出来
+Common Lisp = 帮助把 AI 的结构想清楚
+```
 
 ## 2. 当前 Python 小地图
 
@@ -186,7 +195,34 @@ Lisp 不从零重新学，而是**直接对齐上面的 Python 整段代码**。
 
 完整选择规则与边界以 `docs/TEACHING_SOP.md` 为准。
 
-## 6. 双语言教学固定规则
+## 6. AI 教学语言定位
+
+长期规则统一见：`docs/AI_LANGUAGE_POSITIONING.md`。
+
+默认偏向：
+
+```text
+数据 / Solver / NumPy / Pandas / Dataset / Tensor
+神经网络 / PyTorch / JAX / Loss / Optimizer / GPU / 部署
+→ Python 主讲、正式实现
+
+状态 / Game Tree / Action Tree / Search / 递归
+规则 / 符号 / DSL / code-as-data / CFR 结构
+→ Lisp 辅助思考，再回 Python 落地
+
+概率 / EV / 向量 / 矩阵 / Softmax / Gradient / Backpropagation
+→ 先语言无关解释，再 Python 实现；Lisp 只在能明显帮助结构理解时加入
+```
+
+不采用 Python / Lisp 50:50 平均教学，也不为了双语言形式机械翻译 PyTorch / CUDA。
+
+AI 新模块默认先问：
+
+> **这是工程实现问题，还是结构设计问题？**
+
+再决定主要使用哪种语言。
+
+## 7. 双语言教学固定规则
 
 每次涉及 Lisp 时：
 
@@ -204,7 +240,7 @@ Lisp 不从零重新学，而是**直接对齐上面的 Python 整段代码**。
 
 > **局部版负责学懂，完整版负责不迷路。**
 
-## 7. Lisp 运行位置
+## 8. Lisp 运行位置
 
 默认：
 
@@ -221,7 +257,7 @@ Lisp 学习实验   → GPT 内
 
 除非用户以后明确要求本地 Lisp 环境。
 
-## 8. 下一步课程
+## 9. 下一步课程
 
 继续从当前 Python 函数组合出发，同时拆 Lisp 对应概念：
 
@@ -239,7 +275,7 @@ Python Card Engine 第一版
 Lisp 完整对齐版同步升级
 ```
 
-## 9. 当前教学约定
+## 10. 当前教学约定
 
 - 默认只显示小地图。
 - 正式代码放上面，解释放下面。
@@ -253,6 +289,7 @@ Lisp 完整对齐版同步升级
 - Lisp 直接对齐当前 Python 项目学习进度，不从无关基础重新开始。
 - 每次 Lisp 教学同时提供局部核心和完整对齐版。
 - Python ↔ Lisp 同角色固定使用同一种语义颜色。
+- Python 是 AI 正式工程主战语言；Lisp 是程序设计健身房和 AI 架构草稿纸。
 - Solver / Dataset / NumPy / PyTorch / GPU AI 继续以 Python 为主。
 
 ## 更新规则
@@ -261,4 +298,5 @@ Lisp 完整对齐版同步升级
 
 - 教学执行规则变化 → 更新 `docs/TEACHING_SOP.md`
 - 双语言课程结构变化 → 更新 `docs/PYTHON_LISP_COURSE.md`
+- AI 语言角色 / 教学偏向变化 → 更新 `docs/AI_LANGUAGE_POSITIONING.md`
 - 高层教学哲学变化 → 更新 `docs/LEARNING_METHOD.md`
