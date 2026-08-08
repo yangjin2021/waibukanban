@@ -31,7 +31,7 @@
 | 18 | CFR / 博弈论深入 | ○ |
 | 19 | Fast GTO Engine | ○ |
 
-当前阶段：**Phase 01 Python 入门**，已经开始用扑克 Deck 作为学习载体。
+当前阶段：**Phase 01 Python 入门**，继续用 Poker Card / Deck 作为学习载体。
 
 ## 2. 小地图进度
 
@@ -44,55 +44,35 @@
 | `Kh → Rank / Suit` | ● |
 | `list` 保存多张牌 | ● |
 | `for` 循环逐张处理 | ● |
-| 嵌套 `for`：13 Rank × 4 Suit | ● |
+| 嵌套 `for`：Rank × Suit | ● |
 | 生成并打印完整 52 张 Deck | ● |
 | `len()` 检查数量 | ● |
 | `set()` 检查重复牌 | ● |
 | `def create_deck()` | ● |
 | `return deck` | ● PyCharm 已验证 |
-| 函数参数 | ○ 下一步 |
+| 函数参数 `rank, suit` | ● 已理解 |
+| `def card(rank, suit): return rank + suit` 最小函数骨架 | ● 已理解 |
+| 循环中调用 `card(rank, suit)` | ● PyCharm 已验证（2×2 输出 As/Ah/Ks/Kh） |
+| 两层 `for` 的二维组合 / 笛卡尔积直觉 | ● 已理解 |
+| `create_deck()` 无参数 → 返回整副牌 | ◐ 当前知识点，最小版已讲解待验证 |
 | Card Engine 结构化 | ○ |
 
-当前 Sprint 目标：把“生成 52 张牌”从脚本式代码逐步整理成可复用函数，并继续理解函数、参数和数据流。
+当前 Sprint 目标：把已经掌握的“单张牌函数 + 循环组合 + deck 列表”重新组合成一个清晰的 `create_deck()` 函数，建立稳定的“输入 → 处理 → 输出”代码骨架感。
 
 ## 3. 当前开发方式
 
 - 项目目录：`C:\PokerGTOAI`
 - Python 代码：`C:\PokerGTOAI\src\main.py`
 - **当前默认 IDE：PyCharm**
-- 默认教学流程优先按 PyCharm 编辑 / Run，不再默认要求用 Notepad + PowerShell 运行。
-- PowerShell 保留为辅助工具：路径、Git、环境排查或命令行任务时再使用。
+- 默认教学流程：在 PyCharm 编辑 → Run → 看实际输出 → 再推进。
+- PowerShell 只在路径、Git、环境排查或命令行任务时使用。
 - 如果新开终端需要回项目：`cd C:\PokerGTOAI`
 
-## 4. 最后一次明确验证的代码
+## 4. 最近明确验证的运行结果
 
-用户已在 PyCharm 验证 `create_deck()` + `return deck` 数据流。
+### A. `create_deck()` + `return deck`
 
-对应核心代码：
-
-```python
-# 定义一个“生成整副牌”的功能
-def create_deck():
-    ranks = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
-    suits = ["s", "h", "d", "c"]
-    deck = []
-
-    for rank in ranks:
-        for suit in suits:
-            card = rank + suit
-            deck.append(card)
-
-    return deck
-
-
-deck = create_deck()
-
-print("第一张牌:", deck[0])
-print("最后一张牌:", deck[-1])
-print("牌的数量:", len(deck))
-```
-
-已验证输出：
+已在 PyCharm 验证：
 
 ```text
 第一张牌: As
@@ -102,32 +82,89 @@ print("牌的数量:", len(deck))
 Process finished with exit code 0
 ```
 
-这证明用户已经实际使用并验证：
+### B. 循环中调用函数
 
-- `def` 定义函数
-- 函数调用 `create_deck()`
-- `return deck` 把函数内部结果交回外部
-- `deck = create_deck()` 接住返回值
-- `deck[0]` / `deck[-1]`
-- `len(deck) == 52`
+核心代码：
 
-## 5. 下一知识点
+```python
+def card(rank, suit):
+    return rank + suit
 
-**函数参数（parameter / argument）**。
+ranks = ["A", "K"]
+suits = ["s", "h"]
 
-目标不是为了增加难度，而是理解：函数可以从外面接收数据，而不是所有规则都写死在函数里面。
+for rank in ranks:
+    for suit in suits:
+        print(card(rank, suit))
+```
 
-教学时优先从一个非常小的例子开始，再逐步连接回扑克代码；不要一次把 `create_deck()` 改得过度抽象。
+用户已贴出 PyCharm 实际输出：
+
+```text
+As
+Ah
+Ks
+Kh
+
+Process finished with exit code 0
+```
+
+这证明用户已经实际跑通：
+
+- 函数参数作为输入
+- `return` 作为输出
+- 函数调用
+- 外层 / 内层 `for`
+- 循环变量每轮重新绑定当前值
+- 循环中调用函数
+- `2 × 2` 组合生成四个结果
+
+## 5. 当前知识点
+
+当前正在学习：**把整副 Deck 重新封装成一个无参数函数**。
+
+当前最小核心：
+
+```python
+def create_deck():
+    return ["As", "Ah"]
+```
+
+只理解：
+
+```text
+create_deck = 功能名字
+()          = 不需要输入
+return      = 把结果交出去
+```
+
+该最小版目前已讲解，但用户还没有贴出运行结果，因此保持 `◐`，不要误写为已验证。
+
+下一层才逐步补回：
+
+```text
+空 deck
+→ 循环制造牌
+→ append 放入 deck
+→ return deck
+```
+
+不要直接一次跳回完整 52 张版本。
 
 ## 6. 当前教学约定
 
-- 每次教学回复**只显示小地图表格**；除非用户主动要求，不重复显示大地图。
-- 伪代码逻辑与正式 Python 代码**放在同一个代码块里**。
-- 用 `# 中文注释` 写“人话逻辑 / Python 此时在做什么”。
-- 注释只帮助理解，不通过额外 `print()` 打出来，因此实际运行结果保持干净。
-- 优先解释“为什么这样写 / 不这样写会怎样”，尤其是缩进、循环、变量和数据流。
-- 一次只推进一个小知识点，用户理解后再进入下一课。
-- 当前默认使用 **PyCharm**：给代码 → 在 PyCharm 运行 → 看正常输出 → 再解释 / 推进。
+- 每次教学回复默认**只显示小地图表格**；用户主动要求时才显示大地图。
+- **真正可运行的 Python 代码放在最上面，保持干净。**
+- 代码下面再放：运行结果 → 人话伪代码 / 执行流程 → PyCharm 颜色或灰色提示解释 → 为什么这样写。
+- 不再默认把大量教学注释塞进正式 Python 代码里；必要时只保留极少数关键注释。
+- 遇到不懂的代码，必须先尝试压缩到**不能再压的最小核心**；如果某行不能删，要明确说明“这一行是核心，不能再砍了”。
+- 默认按：**最小核心 → 看懂骨架 → 只增加一层 → 再增加一层 → 回到完整项目代码**。
+- 优先帮助识别：`功能名字 / 输入 / 处理 / 输出`。
+- 高频使用自然中文伪代码解释数据流，例如“拿出来 / 交进去 / 做成 / 放进盒子 / return 交回来”。
+- 可以结合 PyCharm 语法高亮解释代码角色；必须区分“真正代码”和 PyCharm 的灰色 Inlay Hints / usages 提示。
+- 可以在合适时用 Lisp / S-expression 作为结构透视图，帮助理解函数、绑定、循环和数据流；Python 仍是 Poker GTO AI 项目的主语言。
+- 一次只推进一个主要新概念；用户说“懂了 / 继续 / 下一课”再增加复杂度。
+- 可以偶尔用 1～2 个短问题抽查已经讲过的概念，不出陷阱题。
 
 ## 更新规则
 
