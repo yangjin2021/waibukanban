@@ -4,192 +4,231 @@
 
 ## 1. 总原则
 
-Poker GTO Intelligence 的**正式工程主线继续使用 Python**；新增 **Common Lisp（SBCL）学习副线**。
+Poker GTO Intelligence 的**正式工程主线继续使用 Python**；Common Lisp 作为 GPT 内的同步学习副线。
 
-目标不是把 Python 项目机械翻译成 Lisp，而是：
+Lisp 不要求接入本地 `C:\PokerGTOAI` 项目，也不要求为了课程安装 SBCL、PyCharm Lisp 插件或新建本地 Lisp 目录。
 
-```text
-Python：负责真正落地项目、数据处理、Solver、NumPy / PyTorch / AI
-Common Lisp：负责训练函数、表达式、递归、组合、符号处理和“代码即数据”的思维
-
-同一个 Poker 问题
-    ↓
-先看最小核心
-    ↓
-Python 实现
-    ↓
-Common Lisp 对照
-    ↓
-比较两种语言的结构
-    ↓
-把更清晰的逻辑带回 Python 正式项目
-```
-
-## 2. 项目目录规划
-
-正式 Python 代码保留：
+默认目标：
 
 ```text
-C:\PokerGTOAI\src\main.py
+Python 项目现在走到哪里
+        ↓
+Lisp 教学就直接对齐到同一知识进度
+        ↓
+先用已经懂的 Python 理解 Lisp
+        ↓
+同时继续推进 Python 正式项目
 ```
 
-Common Lisp 学习代码计划新增：
+Python 负责真正落地项目、Solver、数据、NumPy / PyTorch / AI；Common Lisp 用来训练函数、表达式、递归、列表、组合、符号处理和 code-as-data 思维。
 
-```text
-C:\PokerGTOAI\lisp\main.lisp
-```
+## 2. 不从头重学 Lisp
 
-推荐运行环境：
+不要因为加入 Lisp，就重新从与项目无关的 Hello World、纯算术或独立基础课开始慢慢追赶 Python。
 
-- IDE：PyCharm（继续作为统一编辑器）
-- Python：PyCharm Run
-- Common Lisp：SBCL；初期可直接从 PyCharm Terminal 运行
-- Lisp IDE 插件：可选，不作为课程开始的前置条件
+如果某个 Lisp 基础语法是理解当前代码必需的，就在**当前 Poker 代码里顺手解释**。
 
-在 SBCL 尚未实际安装 / 验证前，不把 Lisp 环境写成“已完成”。
-
-## 3. 当前课程结构
-
-### Track P — Python 主线
-
-当前目标：完成 Card Engine 第一版，并继续进入 Poker 表示、Combo、Range、Solver 数据和 AI。
-
-| P 课次 | 内容 | 状态 |
-|---:|---|:---:|
-| P01 | 变量 / 字符串 / print | ● |
-| P02 | 字符串索引：Rank / Suit | ● |
-| P03 | list | ● |
-| P04 | for | ● |
-| P05 | 两层 for：Rank × Suit | ● |
-| P06 | deck / append / len / set | ● |
-| P07 | def / 参数 / return | ● |
-| P08 | `card(rank, suit)` 最小函数 | ● |
-| P09 | `create_deck()`：函数内部建立 deck | ● |
-| P10 | `create_deck()`：两层循环生成 52 张 | ● 已有 PyCharm 验证记录 |
-| P11 | **函数组合：`create_deck()` 调用 `create_card()`** | ◐ 当前 Python 知识点 |
-| P12 | Card Engine 第一版整理 | ○ |
-| P13 | 条件判断 / Card 合法性检查 | ○ |
-| P14 | dict / 更结构化 Card 表示 | ○ |
-
-### Track L — Common Lisp 副线
-
-Lisp 不从无关的 Hello World 独立重学，而是尽量复用已经理解的 Poker 概念。
-
-| L 课次 | 内容 | 对应 Python |
-|---:|---|---|
-| L00 | 安装并验证 SBCL；在 PyCharm 中运行 `.lisp` | 开发环境 |
-| L01 | S-expression / 表达式：谁包着谁 | Python 调用 / 缩进结构 |
-| L02 | 值、字符串、列表 | Python string / list |
-| L03 | `defun`：定义 `card` | Python `def card(...)` |
-| L04 | Lisp 函数的输入与返回值 | Python 参数 / `return` |
-| L05 | `let`：局部绑定 | Python 局部变量 |
-| L06 | `dolist` / `loop`：遍历 suits | Python `for` |
-| L07 | 嵌套遍历：Rank × Suit | Python 两层 `for` |
-| L08 | Lisp 版最小 Deck | Python `create_deck()` |
-| L09 | 递归版 Deck / 列表处理 | Python 循环视角对照 |
-| L10 | 高阶函数 / map 思维 | Python 映射与数据加工 |
-| L11 | 宏与 code-as-data 入门 | Python AST / 装饰器概念的远期对照 |
-
-## 4. 双轨同步方式
-
-不是一节 Python、一节 Lisp 永远机械交替。
-
-默认节奏：
-
-```text
-Python 学到一个稳定概念
-↓
-需要时用 Lisp 重看同一个骨架
-↓
-比较两种表达
-↓
-回到 Python 项目继续前进
-```
-
-### 当前同步点
-
-Python 已经理解：
+例如当前 Python 已经会：
 
 ```python
-def card(rank, suit):
+def create_card(rank, suit):
+    return rank + suit
+
+
+def create_deck():
+    ranks = ["A", "K"]
+    suits = ["s", "h"]
+    deck = []
+
+    for rank in ranks:
+        for suit in suits:
+            card = create_card(rank, suit)
+            deck.append(card)
+
+    return deck
+
+
+deck = create_deck()
+print(deck)
+```
+
+那么 Lisp 直接从功能上对齐这一整段，而不是只讲 `(+ 1 2)`。
+
+## 3. 当前完整 Lisp 对齐版本
+
+```lisp
+(defun create-card (rank suit)
+  (concatenate 'string rank suit))
+
+(defun create-deck ()
+  (let ((ranks '("A" "K"))
+        (suits '("s" "h"))
+        (deck '()))
+    (dolist (rank ranks)
+      (dolist (suit suits)
+        (let ((card (create-card rank suit)))
+          (setf deck (append deck (list card))))))
+    deck))
+
+(let ((deck (create-deck)))
+  (format t "~S~%" deck))
+```
+
+对应结果概念上为：
+
+```text
+("As" "Ah" "Ks" "Kh")
+```
+
+该版本优先追求和当前 Python 数据流容易一一对照；以后再逐步介绍更 Lisp 风格、更高效的写法，例如 `push` + `nreverse`、`loop`、`mapcar` 等。
+
+## 4. 当前 Python ↔ Lisp 对照
+
+| Python | Common Lisp | 当前意义 |
+|---|---|---|
+| `def` | `defun` | 定义函数 |
+| `create_card` | `create-card` | 函数名字 |
+| `(rank, suit)` | `(rank suit)` | 输入参数 |
+| `return rank + suit` | 最后一个表达式 | 函数结果 |
+| `ranks = [...]` | `let` + list | 局部数据 |
+| `for rank in ranks` | `dolist (rank ranks)` | 遍历 |
+| 两层 `for` | 两层 `dolist` | Rank × Suit |
+| `create_card(rank, suit)` | `(create-card rank suit)` | 函数调用 |
+| `deck.append(card)` | 当前教学版用 `append` 组合回 `deck` | 放入 Deck |
+| `return deck` | 函数最后的 `deck` | 返回 Deck |
+| `print(deck)` | `format` | 显示结果 |
+
+## 5. 强制双语言教学格式
+
+当一节 Python 课程包含 Lisp 对照时，默认同时提供两种尺度：
+
+### A. 当前正在解释的最小局部对照
+
+例如只讲函数：
+
+```python
+def create_card(rank, suit):
     return rank + suit
 ```
 
-所以 Lisp 的第一段正式课程会围绕“同一个 card 功能”展开，而不是重新讲变量是什么。
+```lisp
+(defun create-card (rank suit)
+  (concatenate 'string rank suit))
+```
 
-注意：Common Lisp 的字符串拼接语法与 Python 不同，因此对照时保持**功能语义相同**，不要求字符级一一对应。
+这一层用于真正理解当前新概念。
 
-## 5. 教学格式
+### B. 完整进度对齐版
+
+在同一节里，还要顺手给出**与当前 Python 项目学习进度完整对齐的 Lisp 代码**。
+
+也就是说，即使这节只详细解释 `defun`，用户仍然可以在下面看到完整的 Lisp `create-card + create-deck + 调用 + 输出` 版本。
+
+目的：
+
+```text
+局部代码
+→ 看懂今天的新东西
+
+完整代码
+→ 随时知道它在整个程序中的位置
+```
+
+完整 Lisp 版本不是要求一次学懂全部 Lisp 语法；没有讲到的部分可以先当作“未来会拆开的结构”。
+
+## 6. Python 推进时 Lisp 必须同步推进
+
+以后 Python 主线每增加一个真实项目知识点，Lisp 对齐版本也同步更新到同一层级。
+
+例如：
+
+```text
+Python 加入 if / Card 合法性
+→ Lisp 同步展示对应条件逻辑
+
+Python Card 从字符串升级成更结构化数据
+→ Lisp 同步展示对应数据表示
+
+Python 进入 Combo / Range
+→ Lisp 同步给完整功能对齐版本
+```
+
+但是：
+
+- Python 仍是项目正式实现。
+- Lisp 不要求逐行机械翻译。
+- 两边要保持**功能、输入、处理、输出、数据流**对齐。
+- 如果 Python 使用的是第三方 AI / 数据生态，而 Lisp 没有合理直接对应，不为了形式强行翻译。
+
+## 7. 教学顺序
 
 每次默认：
 
 1. 只显示当前小地图。
-2. **真正可运行的代码放最上面**，不把大量中文注释塞进代码。
-3. 如果代码看不懂，先压缩到不能再压的最小核心。
-4. 代码下面再解释：
-   - 功能名字
-   - 输入
-   - 处理
-   - 输出
-   - 执行顺序 / 数据流
-5. 再需要时补 PyCharm 颜色 / 灰色提示解释。
-6. 双语言课时，再增加 Python ↔ Lisp 对照；不要一次引入多个 Lisp 新概念。
-7. 用户理解后才补下一层，最后回到完整 Poker 项目代码。
+2. 先给干净、可运行的当前 Python 正式代码（如果本课涉及 Python）。
+3. 给当前 Lisp 完整对齐代码。
+4. 再缩小到今天真正要学的 Python ↔ Lisp 局部核心。
+5. 用已经掌握的 Python 解释 Lisp 新语法。
+6. 解释功能名字 / 输入 / 处理 / 输出 / 数据流。
+7. 一次只深入一个主要 Lisp 新概念。
+8. 用户理解后，Python 主线继续推进，同时 Lisp 完整版跟着更新。
 
-## 6. Python 与 Lisp 的角色边界
+## 8. Lisp 运行与验证规则
 
-### Python 必须保持主线的部分
+Lisp 学习默认发生在 GPT 中，不要求写入用户本地 Poker 项目。
 
-后续以下模块默认使用 Python：
+如果当前环境没有真实 Common Lisp 解释器：
 
-- 文件与数据清洗
-- NumPy / Pandas
-- PioSolver 或其他 Solver 数据接口
-- 大规模 Dataset
-- PyTorch / JAX
-- GPU 训练
-- Policy / Value Model
-- 模型评估与实验
+- 可以教学、分析和给出标准 Common Lisp 代码。
+- 可以说明预期结果。
+- **不能把没有实际执行过的 Lisp 代码标为“已运行验证”。**
 
-### Lisp 特别适合辅助的部分
+如果之后出现可用 Lisp 执行环境，再把实际运行结果和语法验证纳入进度。
 
-- 函数与表达式结构
-- 递归
-- 树与搜索
-- 状态变换
-- 符号规则
-- DSL
-- 宏
-- code-as-data
-- CFR / 博弈树算法的概念原型（按需要）
+## 9. 近期同步路线
 
-如果 Lisp 写法在某一课反而增加认知负担，就暂时跳过 Lisp，对应概念继续用 Python 学。
-
-## 7. 近期课程顺序
-
-从现在开始：
+当前起点已经对齐到：
 
 ```text
-1. L00：在现有 PokerGTOAI 项目中建立 lisp/ 并验证 SBCL
-2. L01：用最小 Lisp 表达式理解 S-expression
-3. L03/L04：把已经熟悉的 card(rank, suit) 改写成 Common Lisp
-4. 回 Python P11：create_deck 调用 create_card
-5. Python / Lisp 各做一个最小 Deck
-6. 对比 for / dolist、局部变量、返回值
-7. 整理 Python Card Engine 第一版
-8. 进入 Poker Card 表示与 Combo Engine
+create_card
++ 参数
++ 函数结果
++ list
++ 两层循环
++ create_deck
++ create_deck 调用 create_card
++ 外部调用并打印
 ```
 
-## 8. 判断是否真正学会
-
-不以“背语法”为主，优先看能否：
+接下来不是单独推进 Lisp 基础课，而是：
 
 ```text
-看到代码
+当前 Python 函数组合继续学透
+↓
+同步拆 Lisp defun / 参数 / 自动返回
+↓
+同步拆 let / list
+↓
+同步拆 dolist / 嵌套 dolist
+↓
+Python Card Engine 第一版
+↓
+完整 Lisp 对齐版同步升级
+↓
+继续进入 Card 表示 / Combo Engine
+```
+
+## 10. 判断是否真正学会
+
+不以背 Lisp 术语为主，优先看能否：
+
+```text
+看到 Lisp
+→ 找到对应的 Python 结构
 → 找出功能名字 / 输入 / 处理 / 输出
-→ 预测数据怎么流
-→ 用另一门语言表达同一个逻辑
-→ 回到 Python 项目正确使用
+→ 看懂数据怎么流
+→ 知道两种语言哪里一样、哪里不同
+→ 最后把这种结构理解带回 Python 项目
 ```
 
-最终目标不是成为“会两套语法的人”，而是形成可以跨语言迁移的程序结构能力。
+最终目标不是同时维护两个正式 Poker 工程，而是：**用 Python 做项目，用 Lisp 帮助形成更强的程序结构思维。**
