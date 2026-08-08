@@ -1,35 +1,38 @@
 # Poker GTO Intelligence — Current State
 
-> **默认恢复入口。** 当用户说“查看当前进度 / 继续项目 / 教我下一阶段”时，优先读取本文件；随后读取 `docs/TEACHING_SOP.md` 恢复教学方式；涉及双语言教学时，再读取 `docs/PYTHON_LISP_COURSE.md`；进入 AI 架构、模型、训练、搜索、CFR 等内容时，再读取 `docs/AI_LANGUAGE_POSITIONING.md` 恢复 Python / Lisp 的长期分工。
+> **默认恢复入口。** 当用户说“查看当前进度 / 继续项目 / 教我下一阶段”时，优先读取本文件；随后读取 `docs/TEACHING_SOP.md` 恢复教学方式。需要环境、Solver 参数、模型字段、架构或 Bug 信息时，再通过 `REFERENCE_INDEX.md` 进入对应 Source of Truth。
 
 更新时间：2026-08-08
 
 状态：`● 已完成/已验证` · `◐ 当前进行/已讲解待验证` · `○ 未开始`
 
-## 1. 当前总体路线
+## 1. 永远记住的最终目标
 
 ```text
-Python 主线
-    ↓
-真正开发 Poker GTO Intelligence
-
-Common Lisp 同步副线
-    ↓
-直接对齐当前 Python 学习进度
-    ↓
-用已经会的 Python 理解 Lisp
+只用 Python 学习和开发
+        ↓
+逐步建立 Poker 数据、规则、状态、决策与 AI 能力
+        ↓
+最终做出一个类似 Solver 的 Poker GTO 智能系统
 ```
 
-**Python 仍是正式项目主语言；Lisp 默认在 GPT 内教学，不接入本地 Poker 项目。**
+Python 不是学习终点，而是把这个系统真正造出来的主工具。
 
-长期 AI 语言定位见：`docs/AI_LANGUAGE_POSITIONING.md`。
-
-一句话：
+以后每个新知识都尽量连接到：
 
 ```text
-Python = 把 AI 真正做出来
-Common Lisp = 帮助把 AI 的结构想清楚
+Card / Combo
+→ Range
+→ Action / State
+→ Solver 数据
+→ Dataset
+→ Model
+→ Game Tree / CFR / Search
+→ 推理与决策
+→ Solver-like Poker GTO Intelligence
 ```
+
+正式编程教学只使用 Python，不再引入第二门编程语言辅助解释。
 
 ## 2. 当前 Python 小地图
 
@@ -93,65 +96,41 @@ create_deck
 create_card
 ```
 
-## 4. Lisp 同步进度
-
-Lisp 不从零重新学，而是**直接对齐上面的 Python 整段代码**。
-
-当前完整对齐版本：
-
-```lisp
-(defun create-card (rank suit)
-  (concatenate 'string rank suit))
-
-(defun create-deck ()
-  (let ((ranks '("A" "K"))
-        (suits '("s" "h"))
-        (deck '()))
-    (dolist (rank ranks)
-      (dolist (suit suits)
-        (let ((card (create-card rank suit)))
-          (setf deck (append deck (list card))))))
-    deck))
-
-(let ((deck (create-deck)))
-  (format t "~S~%" deck))
-```
-
-概念输出：
-
-```text
-("As" "Ah" "Ks" "Kh")
-```
-
-该 Lisp 代码目前用于 GPT 内教学与对照；如果没有真实 Lisp 解释器执行，就不能标记为“已运行验证”。
-
-## 5. 当前教学 SOP
+## 4. 当前教学 SOP
 
 完整教学执行规范统一读取：
 
 `docs/TEACHING_SOP.md`
 
-当前最重要的 SOP 核心：
-
-### 六镜头
+当前最重要规则：
 
 ```text
-① 正式 Python
-② 完整 Lisp 对齐版（涉及 Lisp 时）
-③ 局部颜色结构对照
-④ 人话执行流程
-⑤ 树 / 层级 / 结构图
-⑥ 真实数据跑一轮
+只用 Python
+↓
+正式 Python
+↓
+最小核心 Python
+↓
+功能名字 / 输入 / 处理 / 输出
+↓
+人话动作流程（需要时）
+↓
+树 / 箭头 / 盒子 / 表格（需要时）
+↓
+真实数据跑一轮
+↓
+逐层补回
+↓
+回到真实 Poker AI 项目
 ```
 
-卡住时额外使用：
+如果某行不能再删，要明确说：
 
-```text
-压缩版 ↔ 展开版
-正向执行 ↔ 逆向追踪
-```
+> **这一行是核心，不能再砍了。**
 
-### 固定语义颜色
+## 5. 当前视觉与理解规则
+
+固定语义颜色：
 
 | 标记 | 角色 |
 |---|---|
@@ -162,11 +141,7 @@ Lisp 不从零重新学，而是**直接对齐上面的 Python 整段代码**。
 | 🟪 | 循环 / 条件 / 控制结构 |
 | 🟧 | 数据容器 / 局部变量 / 状态 |
 
-原则：**同一个结构角色，同一种教学颜色。**
-
-### 视觉化语言
-
-优先按需要使用：
+可按需要使用：
 
 ```text
 箭头 → 数据流
@@ -175,128 +150,81 @@ Lisp 不从零重新学，而是**直接对齐上面的 Python 整段代码**。
 表格 → Rank × Suit 组合
 流水线 → 处理步骤
 时间轴 → 循环逐轮执行
+压缩 ↔ 展开
+正向 ↔ 逆向追踪
 ```
 
-### 比喻
+## 6. 当前命名教学规则
 
-按知识点选 1～3 个最适合的比喻，例如：
+Python 提供 / 规定的名字要说明来源，例如：
 
 ```text
-🏭 工厂 / 流水线
-👨‍🍳 厨房 / 菜谱
-🚚 快递 / 物流
-📦 盒子 / 仓库
-🎭 临时工牌
-🎰 组合表格
-🧩 乐高
-🗺️ 地图 / 房间
-🧠 数学函数
+def / return / for
+→ Python 关键字
+
+print / len
+→ Python 内置函数
+
+append
+→ list 自带方法
+
+card / rank / deck
+→ 程序员自己起的名字
 ```
 
-完整选择规则与边界以 `docs/TEACHING_SOP.md` 为准。
+重点帮用户判断：
 
-## 6. AI 教学语言定位
+> **这个必须这么写吗？这个名字能不能换？**
 
-长期规则统一见：`docs/AI_LANGUAGE_POSITIONING.md`。
-
-默认偏向：
+不同作用域 / 不同阶段的变量如果同名容易混淆，教学示例先用不同名字，例如：
 
 ```text
-数据 / Solver / NumPy / Pandas / Dataset / Tensor
-神经网络 / PyTorch / JAX / Loss / Optimizer / GPU / 部署
-→ Python 主讲、正式实现
-
-状态 / Game Tree / Action Tree / Search / 递归
-规则 / 符号 / DSL / code-as-data / CFR 结构
-→ Lisp 辅助思考，再回 Python 落地
-
-概率 / EV / 向量 / 矩阵 / Softmax / Gradient / Backpropagation
-→ 先语言无关解释，再 Python 实现；Lisp 只在能明显帮助结构理解时加入
+local_deck / received_deck
 ```
 
-不采用 Python / Lisp 50:50 平均教学，也不为了双语言形式机械翻译 PyTorch / CUDA。
+真正连接变量的是赋值、参数、`return` 等数据流，不是名字相同。
 
-AI 新模块默认先问：
+## 7. 当前抽查规则
 
-> **这是工程实现问题，还是结构设计问题？**
+可以偶尔主动抽查，一次默认 1～2 个已经讲过的问题。
 
-再决定主要使用哪种语言。
-
-## 7. 双语言教学固定规则
-
-每次涉及 Lisp 时：
+优先检查：
 
 ```text
-① 先看当前 Python 正式代码
-② 顺手给与当前 Python 进度完整对齐的 Lisp 全代码
-③ 再截取今天真正要学的最小 Python ↔ Lisp 局部核心
-④ 用固定语义颜色标记两边对应结构
-⑤ 用已经会的 Python 解释 Lisp
-⑥ 一次只深入一个主要 Lisp 新概念
-⑦ Python 主线继续推进时，Lisp 完整对齐版同步升级
+认出骨架
+→ 预测结果
+→ 解释原因
+→ 展开真实一轮
+→ 知道删一行会怎样
+→ 换一个相似 Python 例子还能使用
 ```
 
-核心原则：
+答错时先给小提示；仍卡住，再退回最小核心。
 
-> **局部版负责学懂，完整版负责不迷路。**
+## 8. 下一步课程
 
-## 8. Lisp 运行位置
-
-默认：
+继续当前 Python 函数组合：
 
 ```text
-Python 正式项目 → 现有 Poker 项目 / PyCharm
-Lisp 学习实验   → GPT 内
+实际运行并确认：create_deck() 调用 create_card()
+↓
+整理 Card Engine 第一版
+↓
+从“牌”继续扩展到 Combo / Range 数据结构
+↓
+逐步进入 Solver 数据与 Poker State
 ```
 
-不再默认要求：
+不要为了学习语法而偏离这条路线。
 
-- `C:\PokerGTOAI\lisp\`
-- 本地 SBCL
-- PyCharm Lisp 插件
-
-除非用户以后明确要求本地 Lisp 环境。
-
-## 9. 下一步课程
-
-继续从当前 Python 函数组合出发，同时拆 Lisp 对应概念：
-
-```text
-Python: create_deck() 调用 create_card()
-↓
-Lisp: defun / 参数 / 最后表达式返回
-↓
-Lisp: let / list
-↓
-Lisp: dolist / 嵌套 dolist
-↓
-Python Card Engine 第一版
-↓
-Lisp 完整对齐版同步升级
-```
-
-## 10. 当前教学约定
-
-- 默认只显示小地图。
-- 正式代码放上面，解释放下面。
-- 遇到不懂代码先压到最小核心。
-- 优先识别：功能名字 / 输入 / 处理 / 输出。
-- 一次只增加一个主要新概念。
-- 重要新结构优先使用六镜头。
-- 用户卡住时优先增加视觉、比喻、展开或逆向追踪，而不是增加术语。
-- Python 提供 / 规定的名字要说明来源。
-- 不同作用域同名变量容易混淆时，教学版优先先换不同名字。
-- Lisp 直接对齐当前 Python 项目学习进度，不从无关基础重新开始。
-- 每次 Lisp 教学同时提供局部核心和完整对齐版。
-- Python ↔ Lisp 同角色固定使用同一种语义颜色。
-- Python 是 AI 正式工程主战语言；Lisp 是程序设计健身房和 AI 架构草稿纸。
-- Solver / Dataset / NumPy / PyTorch / GPU AI 继续以 Python 为主。
-
-## 更新规则
+## 9. 更新规则
 
 每完成一个明确验证的小步骤，优先更新本文件。
 
-- 教学执行规则变化 → 更新 `docs/TEACHING_SOP.md`
-- 双语言课程结构变化 → 更新 `docs/PYTHON_LISP_COURSE.md`
-- AI 语言角色 / 教学偏向变化 → 更新 `docs/AI_LANGUAGE_POSITIONING.md`
-- 高层教学哲学变化 → 更新 `docs/LEARNING_METHOD.md`
+- 教学执行规则变化 → `docs/TEACHING_SOP.md`
+- 高层教学哲学 / 最终路线变化 → `docs/LEARNING_METHOD.md`
+- 环境、Solver、模型字段、Bug 等长期事实 → 按 `REFERENCE_INDEX.md` 更新对应 Source of Truth
+
+最后检查：
+
+> **今天学会的东西，怎样让我们更接近用 Python 做出一个类似 Solver 的 Poker GTO 智能系统？**
