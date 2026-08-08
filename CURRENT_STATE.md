@@ -49,10 +49,13 @@ Card / Combo
 | `create_deck()` 内部建立 deck | ● |
 | 两层循环生成 Deck | ● |
 | 函数内 / 外同名 deck 的作用域区别 | ● |
-| **`create_deck()` 调用 `create_card()`** | ◐ 当前，已讲解待实际运行确认 |
-| Card Engine 第一版整理 | ○ |
+| **`create_deck()` 调用 `create_card()`** | ● 2026-08-08 用户实际运行确认 |
+| **Card Engine 第一版：完整 52 张 + 函数组合** | ◐ 当前，待实际运行确认 |
+| Combo / Range 数据结构 | ○ |
 
 ## 3. 当前 Python 代码进度
+
+刚刚已实际验证通过的 2×2 函数组合：
 
 ```python
 def create_card(rank, suit):
@@ -76,24 +79,61 @@ deck = create_deck()
 print(deck)
 ```
 
-预期：
+实际确认结果：
 
 ```text
 ['As', 'Ah', 'Ks', 'Kh']
 ```
 
+当前正在整理为 Card Engine v1：保持完全相同的函数调用结构，只把测试数据扩回真实 13 个 Rank × 4 个 Suit = 52 张牌。
+
+目标代码：
+
+```python
+def create_card(rank, suit):
+    return rank + suit
+
+
+def create_deck():
+    ranks = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
+    suits = ["s", "h", "d", "c"]
+    deck = []
+
+    for rank in ranks:
+        for suit in suits:
+            card = create_card(rank, suit)
+            deck.append(card)
+
+    return deck
+
+
+received_deck = create_deck()
+
+print("第一张牌:", received_deck[0])
+print("最后一张牌:", received_deck[-1])
+print("牌的数量:", len(received_deck))
+```
+
+预期：
+
+```text
+第一张牌: As
+最后一张牌: 2c
+牌的数量: 52
+```
+
 当前知识目标：
 
 ```text
-create_card
-负责一张牌
-
-create_deck
-负责一副牌
-
-create_deck
-    ↓ 调用
-create_card
+测试版 2×2
+↓
+逻辑完全不变
+↓
+真实 13×4
+↓
+create_deck 反复调用 create_card
+↓
+得到可复用的 Card Engine v1
 ```
 
 ## 4. 当前教学 SOP
@@ -203,14 +243,12 @@ local_deck / received_deck
 
 ## 8. 下一步课程
 
-继续当前 Python 函数组合：
-
 ```text
-实际运行并确认：create_deck() 调用 create_card()
+实际运行并确认：Card Engine v1（52 张 + create_deck 调用 create_card）
 ↓
-整理 Card Engine 第一版
+确认第一张 / 最后一张 / 数量
 ↓
-从“牌”继续扩展到 Combo / Range 数据结构
+再从 Card 扩展到 Combo / Range 数据结构
 ↓
 逐步进入 Solver 数据与 Poker State
 ```
