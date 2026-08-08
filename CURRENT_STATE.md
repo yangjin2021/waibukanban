@@ -2,7 +2,7 @@
 
 > **默认恢复入口。** 当用户说“查看当前进度 / 继续项目 / 教我下一阶段”时，优先读取本文件；随后读取 `docs/TEACHING_SOP.md` 恢复教学方式。需要环境、Solver 参数、模型字段、架构或 Bug 信息时，再通过 `REFERENCE_INDEX.md` 进入对应 Source of Truth。
 
-更新时间：2026-08-08
+更新时间：2026-08-09
 
 状态：`● 已完成/已验证` · `◐ 当前进行/已讲解待验证` · `○ 未开始`
 
@@ -49,13 +49,13 @@ Card / Combo
 | `create_deck()` 内部建立 deck | ● |
 | 两层循环生成 Deck | ● |
 | 函数内 / 外同名 deck 的作用域区别 | ● |
-| **`create_deck()` 调用 `create_card()`** | ● 2026-08-08 用户实际运行确认 |
-| **Card Engine 第一版：完整 52 张 + 函数组合** | ◐ 当前，待实际运行确认 |
-| Combo / Range 数据结构 | ○ |
+| `create_deck()` 调用 `create_card()` | ● 2026-08-08 用户实际运行确认 |
+| Card Engine v1：完整 52 张 + 函数组合 | ◐ 已讲解，尚未单独确认实际运行 |
+| `create_combo(card1, card2)`：两张 Card 组成 Combo | ◐ 用户已确认理解，尚未实际运行验证 |
+| **从 Deck 生成不重复 Combo** | ◐ 当前 |
+| Range 数据结构 | ○ |
 
-## 3. 当前 Python 代码进度
-
-刚刚已实际验证通过的 2×2 函数组合：
+## 3. 已实际验证的函数组合
 
 ```python
 def create_card(rank, suit):
@@ -79,15 +79,15 @@ deck = create_deck()
 print(deck)
 ```
 
-实际确认结果：
+用户实际确认结果：
 
 ```text
 ['As', 'Ah', 'Ks', 'Kh']
 ```
 
-当前正在整理为 Card Engine v1：保持完全相同的函数调用结构，只把测试数据扩回真实 13 个 Rank × 4 个 Suit = 52 张牌。
+## 4. 当前 Card / Combo 结构
 
-目标代码：
+当前 Card Engine v1 目标：
 
 ```python
 def create_card(rank, suit):
@@ -105,38 +105,25 @@ def create_deck():
             deck.append(card)
 
     return deck
-
-
-received_deck = create_deck()
-
-print("第一张牌:", received_deck[0])
-print("最后一张牌:", received_deck[-1])
-print("牌的数量:", len(received_deck))
 ```
 
-预期：
+Combo 最小结构已经讲解且用户确认理解：
+
+```python
+def create_combo(card1, card2):
+    return [card1, card2]
+```
+
+结构：
 
 ```text
-第一张牌: As
-最后一张牌: 2c
-牌的数量: 52
+Card = 一张牌
+Combo = 两张 Card 组成的一手具体手牌
 ```
 
-当前知识目标：
+当前不把“理解”误记成“实际运行验证”。
 
-```text
-测试版 2×2
-↓
-逻辑完全不变
-↓
-真实 13×4
-↓
-create_deck 反复调用 create_card
-↓
-得到可复用的 Card Engine v1
-```
-
-## 4. 当前教学 SOP
+## 5. 当前教学 SOP
 
 完整教学执行规范统一读取：
 
@@ -168,18 +155,20 @@ create_deck 反复调用 create_card
 
 > **这一行是核心，不能再砍了。**
 
-## 5. 当前视觉与理解规则
+一次只增加一个主要新概念。
 
-固定语义颜色：
+## 6. 当前视觉与理解规则
 
-| 标记 | 角色 |
-|---|---|
-| 🟦 | 功能 / 函数名字 |
-| 🟩 | 输入 / 参数 |
-| 🟨 | 处理 / 表达式 |
-| 🟥 | 输出 / 返回结果 |
-| 🟪 | 循环 / 条件 / 控制结构 |
-| 🟧 | 数据容器 / 局部变量 / 状态 |
+固定语义角色：
+
+```text
+功能 / 函数名字
+输入 / 参数
+处理 / 表达式
+输出 / 返回结果
+循环 / 条件 / 控制结构
+数据容器 / 局部变量 / 状态
+```
 
 可按需要使用：
 
@@ -187,28 +176,28 @@ create_deck 反复调用 create_card
 箭头 → 数据流
 树 → 嵌套 / 归属
 盒子 → 变量 / 容器
-表格 → Rank × Suit 组合
+表格 → 组合
 流水线 → 处理步骤
 时间轴 → 循环逐轮执行
 压缩 ↔ 展开
 正向 ↔ 逆向追踪
 ```
 
-## 6. 当前命名教学规则
+## 7. 当前命名教学规则
 
 Python 提供 / 规定的名字要说明来源，例如：
 
 ```text
-def / return / for
+def / return / for / in
 → Python 关键字
 
-print / len
+print / len / range
 → Python 内置函数
 
 append
 → list 自带方法
 
-card / rank / deck
+card / combo / deck / i / j
 → 程序员自己起的名字
 ```
 
@@ -216,46 +205,50 @@ card / rank / deck
 
 > **这个必须这么写吗？这个名字能不能换？**
 
-不同作用域 / 不同阶段的变量如果同名容易混淆，教学示例先用不同名字，例如：
+## 8. 当前课程：从 Deck 生成不重复 Combo
 
-```text
-local_deck / received_deck
+当前只增加一个主要概念：**用索引位置控制两张牌的配对，避免同一张牌配自己，也避免 As+Kh 与 Kh+As 重复出现。**
+
+先用小数据理解：
+
+```python
+cards = ["As", "Ah", "Ks", "Kh"]
+
+for i in range(len(cards)):
+    for j in range(i + 1, len(cards)):
+        print(cards[i], cards[j])
 ```
 
-真正连接变量的是赋值、参数、`return` 等数据流，不是名字相同。
-
-## 7. 当前抽查规则
-
-可以偶尔主动抽查，一次默认 1～2 个已经讲过的问题。
-
-优先检查：
+预期得到 6 个不重复组合：
 
 ```text
-认出骨架
-→ 预测结果
-→ 解释原因
-→ 展开真实一轮
-→ 知道删一行会怎样
-→ 换一个相似 Python 例子还能使用
+As Ah
+As Ks
+As Kh
+Ah Ks
+Ah Kh
+Ks Kh
 ```
 
-答错时先给小提示；仍卡住，再退回最小核心。
+理解后再接入真实 `create_deck()` 和 `create_combo()`，生成完整 52 张牌的 1326 个 Combo。
 
-## 8. 下一步课程
+## 9. 下一步路线
 
 ```text
-实际运行并确认：Card Engine v1（52 张 + create_deck 调用 create_card）
+先理解小型 4 张牌为什么只产生 6 个不重复 Combo
 ↓
-确认第一张 / 最后一张 / 数量
+把索引循环接入 create_combo
 ↓
-再从 Card 扩展到 Combo / Range 数据结构
+扩到 52 张牌
 ↓
-逐步进入 Solver 数据与 Poker State
+实际确认 Combo 数量 = 1326
+↓
+进入 Range 数据结构
 ```
 
 不要为了学习语法而偏离这条路线。
 
-## 9. 更新规则
+## 10. 更新规则
 
 每完成一个明确验证的小步骤，优先更新本文件。
 
