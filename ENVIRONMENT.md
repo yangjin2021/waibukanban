@@ -1,6 +1,6 @@
 # Poker GTO Intelligence — Environment
 
-本文档集中记录当前本机研发环境。用途：安装依赖、排查训练问题、迁移电脑、验证 PyTorch/CUDA、规划数据路径。
+本文档集中记录当前本机研发环境。用途：安装依赖、排查训练问题、迁移电脑、验证 PyTorch/CUDA、规划数据路径，以及记录教学需要对齐的 IDE 事实。
 
 > 安全规则：不在仓库中保存 Windows 产品 ID、设备 ID、密码、Token、私钥等敏感标识或凭据。
 
@@ -19,6 +19,9 @@
 
 | 项目 | 当前值 | 状态 |
 |---|---|:---:|
+| IDE | **PyCharm** | ● |
+| PyCharm 版本 | 尚未记录 | ○ |
+| PyCharm Theme / Color Scheme | 尚未记录；教学颜色以用户当前实际界面 / 截图为准 | ○ |
 | Python | 3.12.10 | ● |
 | PowerShell | 7.6.4 | ● |
 | NVIDIA Driver | 560.94 | ● |
@@ -28,6 +31,20 @@
 | PyTorch 实际使用的 CUDA Runtime | 尚未验证 | ○ |
 
 说明：`nvidia-smi` 显示的 CUDA 12.6 代表当前 NVIDIA 驱动能够支持的 CUDA 能力上限之一，不等同于“PyTorch 已经成功使用 CUDA”。PyTorch 安装后需要单独验证。
+
+### PyCharm 教学视觉事实
+
+用户主要在 **PyCharm** 中阅读、编写和运行 Python。
+
+因此代码教学图片 / 颜色标注的视觉 Source of Truth 优先顺序为：
+
+```text
+用户当前 PyCharm 截图 / 实际界面
+→ 用户明确给出的 Color Scheme 设置
+→ 如果都没有，则不猜精确颜色，只做文字角色标注
+```
+
+ChatGPT 自己的 Python 代码高亮颜色不能当成 PyCharm 配色事实。
 
 ## 3. 当前项目路径
 
@@ -131,6 +148,7 @@ PowerShell 提示符可能由主题美化工具显示成多段内容；提示符
 
 以下任何一项发生变化，都更新本文件：
 
+- PyCharm 版本 / Theme / Color Scheme（如果教学视觉需要精确对齐）
 - Python 版本
 - PowerShell / Terminal 环境
 - PyTorch 版本
