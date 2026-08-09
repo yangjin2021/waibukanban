@@ -1,10 +1,10 @@
 # Poker GTO Intelligence — Current State
 
-> **默认恢复入口。** 当用户说“查看当前进度 / 继续项目 / 教我下一阶段”时，优先读取本文件；随后读取 `docs/TEACHING_SOP.md` 恢复教学方式。需要环境、Solver 参数、模型字段、架构或 Bug 信息时，再通过 `REFERENCE_INDEX.md` 进入对应 Source of Truth。
+> **默认恢复入口。** 当用户说“查看当前进度 / 继续项目 / 教我下一阶段”时，优先读取本文件；随后读取 `docs/TEACHING_SOP.md` 恢复教学方式，并读取 `docs/PYTHON_LEARNING_MAP.md` 恢复课程级小地图。需要环境、Solver 参数、模型字段、架构或 Bug 信息时，再通过 `REFERENCE_INDEX.md` 进入对应 Source of Truth。
 
 更新时间：2026-08-09
 
-状态：`● 已完成/已验证` · `◐ 当前进行/已讲解待验证` · `○ 未开始`
+状态：`● 稳定/已验证` · `◐ 已会但混合场景仍需巩固` · `△ 已见过` · `○ 未开始`
 
 ## 1. 永远记住的最终目标
 
@@ -32,30 +32,136 @@ Card / Combo
 → Solver-like Poker GTO Intelligence
 ```
 
-正式编程教学只使用 Python，不再引入第二门编程语言辅助解释。
+正式编程教学只使用 Python。
 
-## 2. 当前 Python 小地图
+## 2. 课程架构已经改为“螺旋式 +15%”
 
-| 当前任务 | 状态 |
-|---|:---:|
-| 变量 / 字符串 / print | ● |
-| 字符串索引 Rank / Suit | ● |
-| list | ● |
-| for | ● |
-| 两层 for：Rank × Suit | ● |
-| deck / append / len / set | ● |
-| def / 参数 / return | ● |
-| `create_card(rank, suit)` | ● |
-| `create_deck()` 内部建立 deck | ● |
-| 两层循环生成 Deck | ● |
-| 函数内 / 外同名 deck 的作用域区别 | ● |
-| `create_deck()` 调用 `create_card()` | ● 2026-08-08 用户实际运行确认 |
-| Card Engine v1：完整 52 张 + 函数组合 | ◐ 已讲解，尚未单独确认实际运行 |
-| `create_combo(card1, card2)`：两张 Card 组成 Combo | ◐ 用户已确认理解，尚未实际运行验证 |
-| **从 Deck 生成不重复 Combo** | ◐ 当前 |
-| Range 数据结构 | ○ |
+完整课程级小地图：
 
-## 3. 已实际验证的函数组合
+`docs/PYTHON_LEARNING_MAP.md`
+
+以后不再使用“学完一个知识点就永久离开”的直线课程，而使用：
+
+```text
+约 85% 已学知识
++
+约 15% 新知识
+↓
+同一课内部继续分层递进
+↓
+交互测试
+↓
+Poker Boss
+↓
+根据答题结果自动调速
+```
+
+这里的 85% / 15% 是教学设计目标，不机械按字数计算。
+
+同一课固定尽量按：
+
+```text
+Level 1 旧知识复测
+↓
+Level 2 易混变式
+↓
+Level 3 本课约 15% 新知识
+↓
+Level 4 新旧混合
+↓
+Level 5 Poker Boss
+```
+
+当前层明显不稳时，不强行继续加新知识；先 Diagnose → Backfill → Re-test。
+
+## 3. 当前 Python 小地图：以“稳定度”而不是“讲过”判断
+
+最近交互测试说明：用户已经见过并使用过不少后续知识，但 `list / dict / in / 取值后重新判断类型` 在混合代码里还没有完全自动化。因此当前不是整章倒退，而是进行**螺旋式回补**。
+
+| 能力 | 状态 | 当前判断 |
+|---|:---:|---|
+| 变量 / `=` / `print` | ● | 基础可用 |
+| `int` / `str` | ◐ | 单独判断基本会，混合结构仍需复测 |
+| `list` | ◐ | 知道概念；取值后最外层判断偶尔出错 |
+| 嵌套 list | ◐ | 当前重点之一 |
+| `dict` key / value | ◐ | 已会基础，混合取值需强化 |
+| `state["key"]` | ◐ | 已会，需继续自动化 |
+| `[]` 创建 list vs 取值 | ◐ | 当前重点之一 |
+| list 索引 `[0] / [1]` | △/◐ | 最新加入的约 15% 新知识 |
+| `in` 当前层规则 | ◐ | 当前明显薄弱点 |
+| `==` | ◐ | 已见过；正在强化 False vs Error |
+| False vs `TypeError` | △/◐ | 当前新补知识 |
+| `.get()` | ◐ | 已会基础，继续和 State / Range 混合 |
+| `if / else` | ◐ | 已见过，待数据结构稳定后继续整合 |
+| `append()` | ●/◐ | 已实际用于 Deck，后续继续复用 |
+| `for` | ●/◐ | 已学过，后续作为 85% 熟悉材料复用 |
+| 两层 `for` | ●/◐ | 已学过，后续生成 Deck / Combo 继续复用 |
+| `range()` / `len()` | ●/◐ | 已学过，继续在索引课复用 |
+| `def` / 参数 / `return` | ●/◐ | 已学过，后续继续函数化 |
+| `create_card()` | ● | 已实际运行 |
+| `create_deck()` | ● | 小型版本已实际运行 |
+| `create_combo()` | ◐ | 已理解，仍需项目化验证 |
+| 从 Deck 生成不重复 Combo | ◐ | 原项目主线，待基础层稳定后返回 |
+| Range 数据结构 | ◐ | 已开始接触，当前正作为数据结构练习材料 |
+
+## 4. 当前最重要的阅读公式
+
+以后遇到复杂表达式，默认强制按：
+
+```text
+先求值
+↓
+看取出来的完整对象
+↓
+判断最外层类型
+↓
+看当前层直接元素
+↓
+再判断 == / in / + / if 等操作
+↓
+最后决定 value / True / False / Error
+```
+
+当前典型例子：
+
+```python
+state = {
+    "position": "CO",
+    "combo": ["132"]
+}
+
+current_range = [
+    ["123"],
+    ["132"]
+]
+```
+
+必须能区分：
+
+```text
+state["combo"]
+→ ["132"]
+→ list
+
+"132" in current_range
+→ False
+
+["132"] in current_range
+→ True
+```
+
+以及：
+
+```text
+"132" == ["132"]
+→ False
+→ 不一定报错
+
+"132" + 1
+→ TypeError
+```
+
+## 5. 已实际验证的函数组合
 
 ```python
 def create_card(rank, suit):
@@ -85,9 +191,9 @@ print(deck)
 ['As', 'Ah', 'Ks', 'Kh']
 ```
 
-## 4. 当前 Card / Combo 结构
+## 6. Card / Combo 主线仍保留
 
-当前 Card Engine v1 目标：
+Card Engine v1：
 
 ```python
 def create_card(rank, suit):
@@ -107,155 +213,130 @@ def create_deck():
     return deck
 ```
 
-Combo 最小结构已经讲解且用户确认理解：
+Combo 最小结构：
 
 ```python
 def create_combo(card1, card2):
     return [card1, card2]
 ```
 
-结构：
+原项目路线没有被废弃，只是现在会把当前数据结构基础穿插进去，以 85% 旧知识 + 15% 新知识的方式重新走回：
 
 ```text
-Card = 一张牌
-Combo = 两张 Card 组成的一手具体手牌
+Card
+→ Deck
+→ Combo
+→ 1326 Combos
+→ Range
+→ State
+→ Action
+→ Dataset / Model
 ```
 
-当前不把“理解”误记成“实际运行验证”。
+## 7. 当前教学执行规则
 
-## 5. 当前教学 SOP
-
-完整教学执行规范统一读取：
+完整教学 SOP：
 
 `docs/TEACHING_SOP.md`
+
+高层教学方法：
+
+`docs/LEARNING_METHOD.md`
+
+课程级螺旋小地图：
+
+`docs/PYTHON_LEARNING_MAP.md`
 
 当前最重要规则：
 
 ```text
-只用 Python
+SHOW CODE
 ↓
-正式 Python
+语法颜色 / token / 符号辅助读码
 ↓
-最小核心 Python
+85% 已知结构
 ↓
-功能名字 / 输入 / 处理 / 输出
+15% 新知识
 ↓
-人话动作流程（需要时）
+同课层层递进
 ↓
-树 / 箭头 / 盒子 / 表格（需要时）
+交互作答
 ↓
-真实数据跑一轮
+错因诊断
 ↓
-逐层补回
+Poker Boss
 ↓
-回到真实 Poker AI 项目
+下一课根据结果自动调速
 ```
 
-如果某行不能再删，要明确说：
+交互式教学是默认方式，不只是考试时使用。
 
-> **这一行是核心，不能再砍了。**
+## 8. 当前下一课方向
 
-一次只增加一个主要新概念。
-
-## 6. 当前视觉与理解规则
-
-固定语义角色：
+当前课已经开始加入：
 
 ```text
-功能 / 函数名字
-输入 / 参数
-处理 / 表达式
-输出 / 返回结果
-循环 / 条件 / 控制结构
-数据容器 / 局部变量 / 状态
+list 索引 [0] / [1]
 ```
 
-可按需要使用：
+同时继续强化：
 
 ```text
-箭头 → 数据流
-树 → 嵌套 / 归属
-盒子 → 变量 / 容器
-表格 → 组合
-流水线 → 处理步骤
-时间轴 → 循环逐轮执行
-压缩 ↔ 展开
-正向 ↔ 逆向追踪
+取值后重新判断类型
+嵌套 list 当前层
+in 当前层
+False vs TypeError
+.get()
 ```
 
-## 7. 当前命名教学规则
-
-Python 提供 / 规定的名字要说明来源，例如：
+下一轮如果这些题稳定通过，再新增约 15%：
 
 ```text
-def / return / for / in
-→ Python 关键字
-
-print / len / range
-→ Python 内置函数
-
-append
-→ list 自带方法
-
-card / combo / deck / i / j
-→ 程序员自己起的名字
+True / False
+!=
+not in
+.get() 默认值真正触发
 ```
 
-重点帮用户判断：
-
-> **这个必须这么写吗？这个名字能不能换？**
-
-## 8. 当前课程：从 Deck 生成不重复 Combo
-
-当前只增加一个主要概念：**用索引位置控制两张牌的配对，避免同一张牌配自己，也避免 As+Kh 与 Kh+As 重复出现。**
-
-先用小数据理解：
-
-```python
-cards = ["As", "Ah", "Ks", "Kh"]
-
-for i in range(len(cards)):
-    for j in range(i + 1, len(cards)):
-        print(cards[i], cards[j])
-```
-
-预期得到 6 个不重复组合：
+随后重新整合进：
 
 ```text
-As Ah
-As Ks
-As Kh
-Ah Ks
-Ah Kh
-Ks Kh
+if / else
+→ Range decision
+→ Play / Fold
 ```
 
-理解后再接入真实 `create_deck()` 和 `create_combo()`，生成完整 52 张牌的 1326 个 Combo。
-
-## 9. 下一步路线
+再返回原主线：
 
 ```text
-先理解小型 4 张牌为什么只产生 6 个不重复 Combo
-↓
-把索引循环接入 create_combo
-↓
-扩到 52 张牌
-↓
-实际确认 Combo 数量 = 1326
-↓
-进入 Range 数据结构
+Deck → 不重复 Combo → 1326 → Range
 ```
 
-不要为了学习语法而偏离这条路线。
+## 9. 当前命名 / 颜色 / 符号教学规则
+
+每课继续辅助判断：
+
+```text
+Python 关键字
+Python 内置函数
+标准类型方法
+程序员自己起的变量 / 函数名
+字符串 / 数字字面量
+[] / () / {} / : / , / . / = / == 等符号在当前上下文中的真实作用
+```
+
+代码和交互题尽量使用语法着色；颜色是辅助，token 属性才是真正含义。
 
 ## 10. 更新规则
 
 每完成一个明确验证的小步骤，优先更新本文件。
 
+- 当前学到哪里 / 哪个知识是否稳定 → `CURRENT_STATE.md`
+- 完整课程顺序 / 85%+15% 小地图 → `docs/PYTHON_LEARNING_MAP.md`
 - 教学执行规则变化 → `docs/TEACHING_SOP.md`
-- 高层教学哲学 / 最终路线变化 → `docs/LEARNING_METHOD.md`
-- 环境、Solver、模型字段、Bug 等长期事实 → 按 `REFERENCE_INDEX.md` 更新对应 Source of Truth
+- 高层教学哲学 → `docs/LEARNING_METHOD.md`
+- 环境、Solver、模型字段、Bug → 按 `REFERENCE_INDEX.md` 更新对应 Source of Truth
 
 最后检查：
 
-> **今天学会的东西，怎样让我们更接近用 Python 做出一个类似 Solver 的 Poker GTO 智能系统？**
+> **今天新增的约 15% 知识，怎样建立在旧知识上，又怎样让我们更接近用 Python 做出一个类似 Solver 的 Poker GTO 智能系统？**
